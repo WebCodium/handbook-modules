@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="demo" ng-cloak>
+<head>
+    <meta charset="UTF-8">
+    <title>Handook Modules</title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/codemirror/lib/codemirror.js"></script>
+    <script src="bower_components/codemirror/mode/xml/xml.js"></script>
+    <script src="bower_components/codemirror/mode/css/css.js"></script>
+    <script src="bower_components/codemirror/mode/javascript/javascript.js"></script>
+    <script src="bower_components/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/dist/app.js"></script>
+    <script src="/dist/templates.js"></script>
+    <style>
+        .CodeMirror {
+            height: auto;
+        }
+    </style>
+
+    <script id="js">
+        angular.module('demo', ['handbook']).controller('demoController', ['$scope', '$window', function ($scope, window) {
+            'use strict';
+
+        }]);
+
+    </script>
+</head>
+
+<body ng-controller="demoController" class="container">
+<div id="code"></div>
+<div class="row" id="panelHtml">
+    <panel>
+        <panel-header>
+            It is a header
+        </panel-header>
+        <panel-body>
+            It is a body
+        </panel-body>
+    </panel>
+</div>
+
+<script type="text/javascript">
+    editor = CodeMirror(document.getElementById("code"), {
+        lineNumbers: true,
+        mode: "javascript",
+        value: document.getElementById('js').innerHTML
+    });
+</script>
+</body>
+</html>
