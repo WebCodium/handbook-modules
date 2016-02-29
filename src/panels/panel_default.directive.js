@@ -2,15 +2,25 @@
  * @memberof panels
  * @name panel-default
  * @ngdoc directive
- * @param  {transclude} panel-header   Multi-slot transclusion
- * @param  {transclude} panel-body   Multi-slot transclusion
  * @restrict E
  * @description
  * Displays default panel
+ * @attr {Transclude} panelHeader Multi-slot transclusion
+ * [See angular documentation](https://docs.angularjs.org/api/ng/directive/ngTransclude#multi-slot-transclusion)
+ * @attr {Transclude} panelBody Multi-slot transclusion
+ * [See angular documentation](https://docs.angularjs.org/api/ng/directive/ngTransclude#multi-slot-transclusion)
+ * @example
+ * <panel>
+ *  <panel-header>
+ *      Content of header
+ *  </panel-header>
+ *  <panel-body>
+ *      Content of body
+ *  </panel-body>
+ * </panel>
  */
-
 angular
-    .module('app.panel')
+    .module('app.panels')
     .directive('panel', panel);
 
 panel.$inject = [];
@@ -23,17 +33,9 @@ function panel() {
             'body': '?panelBody'
         },
         replace: true,
-        templateUrl: 'panel.template.html'
+        templateUrl: 'panel_default.template.html'
     };
     return directive;
-    /**
-     * Initialize panel and events
-     * @memberof panel-default
-     * @param {service} scope the scope of this element
-     * @param {service} element element that this direcive is assigned to
-     * @param {service} attrs attribute of this element
-     * @param {MapController} ctrl map controller
-     */
     function link(scope, element, attrs) {
 
     }

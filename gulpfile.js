@@ -4,8 +4,10 @@ var minifyHtml = require('gulp-minify-html');
 var templateCache = require('gulp-angular-templatecache');
 var browserSync = require('browser-sync');
 var wrap = require('gulp-wrap');
+var wrapper = require('gulp-wrapper');
 var concat = require('gulp-concat');
 var shell = require('gulp-shell');
+var rename = require('gulp-rename');
 var Q = require('q');
 var reload = browserSync.reload;
 var del = require('del');
@@ -31,15 +33,7 @@ gulp.task('scripts', function (done) {
         .pipe(gulp.dest('dist'))
         .on('end', done);
 });
-gulp.task('docs', shell.task([
-    'node_modules/jsdoc/jsdoc.js '+
-    '-c node_modules/angular-jsdoc/common/conf.json '+   // config file
-    '-t node_modules/angular-jsdoc/angular-template '+   // template file
-    '-d docs '+                           // output directory
-    './README.md ' +                            // to include README.md as index contents
-    '-r src/**/*.js '                 // source code directory
-    //'-u tutorials'                              // tutorials directory
-]));
+
 var modulesDir = './src/';
 var getModules = function (dir) {
     return fs.readdirSync(dir)
@@ -95,6 +89,78 @@ gulp.task('templates', function () {
 
 gulp.task('clean', function () {
     del.sync(['dist/*'], {force: true});
+});
+
+gulp.task('docs:base', shell.task([
+    'node_modules/jsdoc/jsdoc.js ' +
+    '-c node_modules/angular-jsdoc/common/conf.json ' +   // config file
+    '-t node_modules/angular-jsdoc/angular-template ' +   // template file
+    '-d docs ' +                           // output directory
+    './README.md ' +                            // to include README.md as index contents
+    '-r src/**/*.js '                 // source code directory
+    //'-u tutorials'                              // tutorials directory
+]));
+
+gulp.task('docs', ['docs:base'], function () {
+    return gulp.src(modulesDir + '**/*.html', {base: modulesDir})
+        .pipe(wrapper({
+            header: '<html><head>' +
+            '<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css"/>' +
+            '<script src="/bower_components/codemirror/lib/codemirror.js"></script>' +
+            '<script src="/bower_components/codemirror/mode/xml/xml.js"></script>' +
+            '<script src="/bower_components/codemirror/mode/css/css.js"></script>' +
+            '<script src="/bower_components/codemirror/mode/javascript/javascript.js"></script>' +
+            '<script src="/bower_components/codemirror/mode/htmlmixed/htmlmixed.js"></script>' +
+            '<link rel="stylesheet" href="/bower_components/codemirror/lib/codemirror.css">' +
+            '<script src="/bower_components/angular/angular.js"></script>' +
+            '<script src="/dist/app.js"></script><script src="/dist/templates.js"></script>' +
+            '<style>body{padding: 10px;}.CodeMirror {height: auto;}.CodeMirror-scroll{height: auto}</style>' +
+            '</head><body>' +
+            '<div id="html" style="display: none;">',
+
+            footer: function (file) {
+                var example;
+                fs.readFile(file.path, "utf-8", function (err, _data) {
+                    //do something with your data
+                    var matches = /<!--((?:.*\s){0,})-->/.exec(_data);
+                    if (matches) {
+                        example = matches[1];
+                    }
+                });
+                return '</div>' +
+                    '<h2>Example</h2>' +
+                    '<div id="example">' +
+                    '</div>' +
+                    '<div ng-app="demo" ng-cloak>' +
+                    '<h2>Result example</h2>' +
+                    '<div id="exampleResult">' +
+                    '</div>' +
+                    '</div>' +
+                    '<h2>Template</h2>' +
+                    '<div id="code"></div>' +
+                    '<script>angular.module(\'demo\', [\'handbook\']);</script>' +
+                    '<script type="text/javascript">' +
+                    'var editor = CodeMirror(document.getElementById("code"), {lineNumbers: true,mode: "text/html",readOnly:true,value: document.getElementById(\'html\').innerHTML.replace(new RegExp("<!--(?:.*\\\\s){0,}-->", "g"), "").trim()});' +
+                    'var matches = (new RegExp("<!--((?:.*\\\\s){0,})-->", "g")).exec(document.getElementById(\'html\').innerHTML);' +
+                    'if (matches && matches[1]){' +
+                    'document.getElementById(\'exampleResult\').innerHTML = matches[1];' +
+                    'var editor2 = CodeMirror(document.getElementById("example"), {lineNumbers: true,mode: "text/html",readOnly:true,value: matches[1].trim()});' +
+                    '}' +
+                    '</script>' +
+                    '</body></html>'
+            }
+        }))
+        .pipe(rename(function (path) {
+            path.dirname = "";
+        }))
+        .pipe(gulp.dest('docs/templates'));
+});
+
+gulp.task('watch:docs', ['docs'], function () {
+    gulp.watch([
+        'gulpfile.js',
+        'src/**/*.html'
+    ], ['docs']);
 });
 
 gulp.task('serve', function () {

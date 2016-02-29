@@ -17,18 +17,11 @@ function skills() {
     var directive = {
         link: link,
         restrict: 'EA',
-        scope: {}
+        scope: {},
+        templateUrl: 'skill_default.template.html'
     };
     return directive;
 
-    /**
-     * Initialize skills and events
-     * @memberof skill-default
-     * @param {service} scope the scope of this element
-     * @param {service} element element that this direcive is assigned to
-     * @param {service} attrs attribute of this element
-     * @param {MapController} ctrl map controller
-     */
     function link(scope, element, attrs, ctrl) {
 
     }
