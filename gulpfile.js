@@ -128,12 +128,16 @@ gulp.task('docs', ['docs:base'], function () {
                     }
                 });
                 return '</div>' +
+                    '<div id="frameExample" style="display: none;">' +
                     '<h2>Example</h2>' +
                     '<div id="example">' +
                     '</div>' +
+                    '</div>' +
                     '<div ng-app="demo" ng-cloak>' +
+                    '<div id="frameResultExample" style="display: none;">' +
                     '<h2>Result example</h2>' +
                     '<div id="exampleResult">' +
+                    '</div>' +
                     '</div>' +
                     '</div>' +
                     '<h2>Template</h2>' +
@@ -143,6 +147,8 @@ gulp.task('docs', ['docs:base'], function () {
                     'var editor = CodeMirror(document.getElementById("code"), {lineNumbers: true,mode: "text/html",readOnly:true,value: document.getElementById(\'html\').innerHTML.replace(new RegExp("<!--(?:.*\\\\s){0,}-->", "g"), "").trim()});' +
                     'var matches = (new RegExp("<!--((?:.*\\\\s){0,})-->", "g")).exec(document.getElementById(\'html\').innerHTML);' +
                     'if (matches && matches[1]){' +
+                    'document.getElementById(\'frameExample\').style.display=\'block\';' +
+                    'document.getElementById(\'frameResultExample\').style.display=\'block\';' +
                     'document.getElementById(\'exampleResult\').innerHTML = matches[1];' +
                     'var editor2 = CodeMirror(document.getElementById("example"), {lineNumbers: true,mode: "text/html",readOnly:true,value: matches[1].trim()});' +
                     '}' +
