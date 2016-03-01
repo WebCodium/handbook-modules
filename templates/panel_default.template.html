@@ -1,0 +1,14 @@
+<html><head><link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css"/><script src="/bower_components/codemirror/lib/codemirror.js"></script><script src="/bower_components/codemirror/mode/xml/xml.js"></script><script src="/bower_components/codemirror/mode/css/css.js"></script><script src="/bower_components/codemirror/mode/javascript/javascript.js"></script><script src="/bower_components/codemirror/mode/htmlmixed/htmlmixed.js"></script><link rel="stylesheet" href="/bower_components/codemirror/lib/codemirror.css"><script src="/bower_components/angular/angular.js"></script><script src="/dist/app.js"></script><script src="/dist/templates.js"></script><style>body{padding: 10px;}.CodeMirror {height: auto;}.CodeMirror-scroll{height: auto}</style></head><body><div id="html" style="display: none;"><div class="panel panel-default">
+    <div class="panel-heading" ng-transclude="header"></div>
+    <div class="panel-body" ng-transclude="body"></div>
+</div>
+<!--
+<panel>
+    <panel-header>
+        Content of header
+    </panel-header>
+    <panel-body>
+        Content of body
+    </panel-body>
+</panel>
+--></div><div id="frameExample" style="display: none;"><h2>Example</h2><div id="example"></div></div><div ng-app="demo" ng-cloak><div id="frameResultExample" style="display: none;"><h2>Result example</h2><div id="exampleResult"></div></div></div><h2>Template</h2><div id="code"></div><script>angular.module('demo', ['handbook']);</script><script type="text/javascript">var editor = CodeMirror(document.getElementById("code"), {lineNumbers: true,mode: "text/html",readOnly:true,value: document.getElementById('html').innerHTML.replace(new RegExp("<!--(?:.*\\s){0,}-->", "g"), "").trim()});var matches = (new RegExp("<!--((?:.*\\s){0,})-->", "g")).exec(document.getElementById('html').innerHTML);if (matches && matches[1]){document.getElementById('frameExample').style.display='block';document.getElementById('frameResultExample').style.display='block';document.getElementById('exampleResult').innerHTML = matches[1];var editor2 = CodeMirror(document.getElementById("example"), {lineNumbers: true,mode: "text/html",readOnly:true,value: matches[1].trim()});}</script></body></html>
