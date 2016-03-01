@@ -8,6 +8,7 @@ var wrapper = require('gulp-wrapper');
 var concat = require('gulp-concat');
 var shell = require('gulp-shell');
 var rename = require('gulp-rename');
+var ghPages = require('gulp-gh-pages');
 var Q = require('q');
 var reload = browserSync.reload;
 var del = require('del');
@@ -174,7 +175,7 @@ gulp.task('serve', function () {
         notify: false,
         port: 1337,
         server: {
-            baseDir: '.',
+            baseDir: 'docs',
             index: 'index.html',
             routes: {
                 '/bower_components': 'bower_components',
@@ -196,4 +197,9 @@ gulp.task('serve', function () {
     gulp.watch([
         'src/**/*.html'
     ], ['templates']);
+});
+
+gulp.task('deploy', function () {
+    return gulp.src('./docs/**/*')
+        .pipe(ghPages());
 });
