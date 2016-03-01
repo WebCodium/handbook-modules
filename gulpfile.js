@@ -101,20 +101,24 @@ gulp.task('docs:base', shell.task([
     '-r src/**/*.js '                 // source code directory
     //'-u tutorials'                              // tutorials directory
 ]));
-
-gulp.task('docs', ['docs:base'], function () {
+gulp.task('vendor:docs', function () {
+    return gulp.src(require('./vendor-docs.json'))
+        .pipe(gulp.dest('docs/vendor'));
+});
+gulp.task('docs', ['docs:base', 'vendor:docs'], function () {
     return gulp.src(modulesDir + '**/*.html', {base: modulesDir})
         .pipe(wrapper({
             header: '<html><head>' +
-            '<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css"/>' +
-            '<script src="/bower_components/codemirror/lib/codemirror.js"></script>' +
-            '<script src="/bower_components/codemirror/mode/xml/xml.js"></script>' +
-            '<script src="/bower_components/codemirror/mode/css/css.js"></script>' +
-            '<script src="/bower_components/codemirror/mode/javascript/javascript.js"></script>' +
-            '<script src="/bower_components/codemirror/mode/htmlmixed/htmlmixed.js"></script>' +
-            '<link rel="stylesheet" href="/bower_components/codemirror/lib/codemirror.css">' +
-            '<script src="/bower_components/angular/angular.js"></script>' +
-            '<script src="/dist/app.js"></script><script src="/dist/templates.js"></script>' +
+            '<link rel="stylesheet" href="../vendor/bootstrap.min.css"/>' +
+            '<script src="../vendor/codemirror.js"></script>' +
+            '<script src="../vendor/xml.js"></script>' +
+            '<script src="../vendor/css.js"></script>' +
+            '<script src="../vendor/javascript.js"></script>' +
+            '<script src="../vendor/htmlmixed.js"></script>' +
+            '<link rel="stylesheet" href="../vendor/codemirror.css">' +
+            '<script src="../vendor/angular.js"></script>' +
+            '<script src="../vendor/app.js"></script>' +
+            '<script src="../vendor/templates.js"></script>' +
             '<style>body{padding: 10px;}.CodeMirror {height: auto;}.CodeMirror-scroll{height: auto}</style>' +
             '</head><body>' +
             '<div id="html" style="display: none;">',
@@ -166,7 +170,7 @@ gulp.task('docs', ['docs:base'], function () {
 gulp.task('watch:docs', ['docs'], function () {
     gulp.watch([
         'gulpfile.js',
-        'src/**/*.html'
+        'src/**/*'
     ], ['docs']);
 });
 
@@ -178,7 +182,7 @@ gulp.task('serve', function () {
             baseDir: 'docs',
             index: 'index.html',
             routes: {
-                '/bower_components': 'bower_components',
+                '../vendor': 'bower_components',
                 '/dist': 'dist'
             }
         }
@@ -199,7 +203,7 @@ gulp.task('serve', function () {
     ], ['templates']);
 });
 
-gulp.task('deploy', function () {
+gulp.task('deploy', ['docs'], function () {
     return gulp.src('./docs/**/*')
         .pipe(ghPages());
 });
