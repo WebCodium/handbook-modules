@@ -8,7 +8,7 @@ var wrapper = require('gulp-wrapper');
 var concat = require('gulp-concat');
 var shell = require('gulp-shell');
 var rename = require('gulp-rename');
-var ghPages = require('gulp-gh-pages');
+//var ghPages = require('gulp-gh-pages');
 var Q = require('q');
 var reload = browserSync.reload;
 var del = require('del');
@@ -203,7 +203,7 @@ gulp.task('serve', function () {
     ], ['templates']);
 });
 
-gulp.task('deploy', ['docs'], function () {
-    return gulp.src('./docs/**/*')
-        .pipe(ghPages());
-});
+//gulp.task('deploy', ['docs'], function () {
+//    return gulp.src('./docs/**/*')
+//        .pipe(ghPages());
+//});

@@ -12,8 +12,6 @@ You should run `gulp` if you want to build a project.
 
 You should run `gulp docs` for building a documentation.
 
-You should run `gulp deploy` for publish [documentation](http://webcodium.github.io/handbook-modules/index.html).
-
 [See demo](https://handbook-yural-webcodium.c9users.io/)
 
 Author: yura.l@webcodium.com
