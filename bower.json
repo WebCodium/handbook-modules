@@ -1,5 +1,5 @@
 {
-  "name": "angular-loopify-link-create",
+  "name": "handbook-modules",
   "description": "You should run `npm install` and `bower install` console commands before runing `gulp` command.",
   "main": "gulpfile.js",
   "authors": [
@@ -20,6 +20,7 @@
   "dependencies": {
     "angular": "^1.4.8",
     "bootstrap": "~3.3.6",
-    "angular-bootstrap": "~1.1.0"
+    "angular-bootstrap": "~1.1.0",
+    "angular-xeditable": "^0.1.10"
   }
 }

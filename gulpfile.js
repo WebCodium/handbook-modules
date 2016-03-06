@@ -9,6 +9,7 @@ var concat = require('gulp-concat');
 var shell = require('gulp-shell');
 var rename = require('gulp-rename');
 var ghPages = require('gulp-gh-pages');
+var nodemon = require('gulp-nodemon');
 var Q = require('q');
 var reload = browserSync.reload;
 var del = require('del');
@@ -167,14 +168,7 @@ gulp.task('docs', ['docs:base', 'vendor:docs'], function () {
         .pipe(gulp.dest('docs/templates'));
 });
 
-gulp.task('watch:docs', ['docs'], function () {
-    gulp.watch([
-        'gulpfile.js',
-        'src/**/*'
-    ], ['docs']);
-});
-
-gulp.task('serve', function () {
+gulp.task('serve:docs', ['docs'], function () {
     browserSync({
         notify: false,
         port: 1337,
@@ -187,7 +181,14 @@ gulp.task('serve', function () {
             }
         }
     });
+    gulp.watch([
+        'README.md',
+        'gulpfile.js',
+        'src/**/*'
+    ], ['docs']);
+});
 
+gulp.task('serve', function () {
     gulp.watch([
         'dist/**/*',
         'index.html'

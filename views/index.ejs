@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="demo" ng-cloak>
+<head>
+    <meta charset="UTF-8">
+    <title>Handook Modules</title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/bower_components/angular-xeditable/dist/css/xeditable.css">
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+    <script src="/dist/app.js"></script>
+    <script src="/dist/templates.js"></script>
+    <style>
+        .m-b_20 {
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        angular.module('demo', ['handbook', 'xeditable']).controller('demoController', ['$scope', '$http', function ($scope, $http) {
+            'use strict';
+        }]);
+
+    </script>
+</head>
+
+<body ng-controller="demoController" class="container">
+<div class="container">
+    <%- partial('partials/panelDefault') %>
+    <%- partial('partials/address') %>
+</div>
+</body>
+</html>

@@ -9,5 +9,6 @@
 angular
     .module('handbook', [
         'app.panels',
-        'app.skills'
+        'app.skills',
+        'app.address'
     ]);
