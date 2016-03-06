@@ -9,7 +9,6 @@ var concat = require('gulp-concat');
 var shell = require('gulp-shell');
 var rename = require('gulp-rename');
 var ghPages = require('gulp-gh-pages');
-var nodemon = require('gulp-nodemon');
 var Q = require('q');
 var reload = browserSync.reload;
 var del = require('del');

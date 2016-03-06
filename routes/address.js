@@ -32,7 +32,7 @@ exports.post = function (req, res) {
 exports.delete = function (req, res) {
     Address.remove({
         _id: req.params.address_id
-    }, function (err, todo) {
+    }, function (err) {
         if (err)
             res.send(err);
         else
