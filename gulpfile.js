@@ -95,7 +95,7 @@ gulp.task('clean', function () {
 gulp.task('docs:base', shell.task([
     'node_modules/jsdoc/jsdoc.js ' +
     '-c node_modules/angular-jsdoc/common/conf.json ' +   // config file
-    '-t node_modules/angular-jsdoc/my-angular-template ' +   // template file
+    '-t node_modules/angular-jsdoc/angular-template ' +   // template file
     '-d docs ' +                           // output directory
     './README.md ' +                            // to include README.md as index contents
     '-r src/**/*.js '                 // source code directory
