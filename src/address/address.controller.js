@@ -21,7 +21,7 @@ function AddressController($scope, editableOptions, editableThemes, configs, $q,
 
         vm.addAddress = function () {
             vm.addresses.push(angular.extend({isNew: true}, configs.fields));
-        }
+        };
         // cancel all changes
         vm.cancel = function () {
             for (var i = vm.addresses.length; i--;) {
@@ -51,7 +51,7 @@ function AddressController($scope, editableOptions, editableThemes, configs, $q,
             AddressLoader.setAddress(address, function (data) {
                 vm.addresses[index] = data;
             });
-        }
+        };
         // delete
         vm.removeAddress = function (index) {
             var address = vm.addresses[index];
@@ -59,6 +59,6 @@ function AddressController($scope, editableOptions, editableThemes, configs, $q,
                 vm.addresses.splice(index, 1);
                 console.log('removed');
             });
-        }
+        };
     }
 }

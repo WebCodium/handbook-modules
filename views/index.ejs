@@ -2,7 +2,7 @@
 <html lang="en" ng-app="demo" ng-cloak>
 <head>
     <meta charset="UTF-8">
-    <title>Handook Modules</title>
+    <title>Handbook Modules</title>
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/bower_components/angular-xeditable/dist/css/xeditable.css">
     <link rel="stylesheet" href="/public/style/main.css">
@@ -16,33 +16,13 @@
     <script src="/public/scripts/main.js"></script>
 </head>
 
-<body ng-controller="demoController" class="container" data-spy="scroll" data-target="#navbar-example">
+<body data-spy="scroll" data-target="#navbar-example">
 <div class="container">
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/">
-                    <img alt="Brand" src="/public/img/logo.png">
-                </a>
-            </div>
-            <div class="collapse navbar-collapse navbar-right">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="/docs" target="_blank">Documentation</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <%- partial('partials/navbar') %>
 
     <div class="row">
         <div class="col-md-2">
-            <div id="navbar-example" data-spy="affix" data-offset-top="50">
-                <ul class="nav nav-stacked nav-pills" role="tablist">
-                    <li><a href="#panel-default">Panel Default</a></li>
-                    <li><a href="#address">Address</a></li>
-                </ul>
-            </div>
+            <%- partial('partials/sidebar') %>
         </div>
         <div class="col-md-10 frame-modules">
             <div id="panel-default">

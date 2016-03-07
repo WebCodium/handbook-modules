@@ -22,6 +22,7 @@ app.use(bodyParser.json({type: 'application/vnd.api+json'})); // parse applicati
 
 require('./routes')(app);
 
-app.listen(process.env.PORT || config.get('port'), function () {
-    console.log('Express server listening on port ' + process.env.PORT || config.get('port'));
+var port = process.env.PORT ? process.env.PORT : config.get('port');
+app.listen(port, function () {
+    console.log('Express server listening on port ' + port);
 });
