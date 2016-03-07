@@ -10,6 +10,7 @@ app.set('view engine', 'ejs');
 app.engine('ejs', require('ejs-locals'))
 
 app.use("/docs", express.static(__dirname + "/docs"));
+app.use("/public", express.static(__dirname + "/public"));
 app.use("/dist", express.static(__dirname + "/dist"));
 app.use("/bower_components", express.static(__dirname + "/bower_components"));
 

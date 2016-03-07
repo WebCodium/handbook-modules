@@ -1,0 +1,14 @@
+.m-b_20 {
+    margin-bottom: 20px;
+}
+
+[data-spy="scroll"] {
+    position: relative;
+}
+[data-spy="affix"]{
+    top: 20px;
+}
+.navbar-brand{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

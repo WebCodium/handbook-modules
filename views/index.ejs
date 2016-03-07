@@ -5,28 +5,54 @@
     <title>Handook Modules</title>
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/bower_components/angular-xeditable/dist/css/xeditable.css">
+    <link rel="stylesheet" href="/public/style/main.css">
     <script src="/bower_components/angular/angular.js"></script>
-    <script src="/bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/bootstrap/js/scrollspy.js"></script>
+    <script src="/bower_components/bootstrap/js/affix.js"></script>
+    <script src="/bower_components/angular-xeditable/dist/js/xeditable.min.js"></script>
     <script src="/dist/app.js"></script>
     <script src="/dist/templates.js"></script>
-    <style>
-        .m-b_20 {
-            margin-bottom: 20px;
-        }
-    </style>
-    <script>
-        angular.module('demo', ['handbook', 'xeditable']).controller('demoController', ['$scope', '$http', function ($scope, $http) {
-            'use strict';
-        }]);
-
-    </script>
+    <script src="/public/scripts/main.js"></script>
 </head>
 
-<body ng-controller="demoController" class="container">
+<body ng-controller="demoController" class="container" data-spy="scroll" data-target="#navbar-example">
 <div class="container">
-    <a href="/docs">Documentation</a>
-    <%- partial('partials/panelDefault') %>
-    <%- partial('partials/address') %>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">
+                    <img alt="Brand" src="/public/img/logo.png">
+                </a>
+            </div>
+            <div class="collapse navbar-collapse navbar-right">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/docs" target="_blank">Documentation</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-2">
+            <div id="navbar-example" data-spy="affix" data-offset-top="50">
+                <ul class="nav nav-stacked nav-pills" role="tablist">
+                    <li><a href="#panel-default">Panel Default</a></li>
+                    <li><a href="#address">Address</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div id="panel-default">
+                <%- partial('partials/modules/panelDefault') %>
+            </div>
+            <div id="address">
+                <%- partial('partials/modules/address') %>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
