@@ -7,6 +7,7 @@ function AddressLoader($http, configs) {
     this.getAddress = getAddress;
     this.setAddress = setAddress;
     this.deleteAddress = deleteAddress;
+    this.getGoogleType = getGoogleType;
 
     ////////////////
 
@@ -47,5 +48,9 @@ function AddressLoader($http, configs) {
             [configs.deleteMethod](addressURL)
             .success(onReady)
             .error(onError);
+    }
+
+    function getGoogleType(type) {
+        return [configs.types[type] || 'address'];
     }
 }

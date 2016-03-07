@@ -1,1 +1,4 @@
-angular.module('app.address', []);
+angular.module('app.address', [
+    'xeditable',
+    'ui.map'
+]);

@@ -2,21 +2,27 @@ angular
     .module('app.address')
     .controller('AddressController', AddressController);
 
-AddressController.$inject = ['$scope', 'editableOptions', 'editableThemes', 'configs', '$q', 'AddressLoader', '$http'];
-function AddressController($scope, editableOptions, editableThemes, configs, $q, AddressLoader, $http) {
+AddressController.$inject = ['$scope', 'editableOptions', 'editableThemes', 'configs', 'AddressLoader', '$http', '$timeout'];
+function AddressController($scope, editableOptions, editableThemes, configs, AddressLoader, $http, $timeout) {
     var vm = this;
-    vm.title = 'Controller';
     activate();
 
     ////////////////
 
     function activate() {
         editableOptions.theme = 'bs3';
+        editableThemes.bs3.inputClass = 'input-sm';
 
         AddressLoader.getAddress(addressReady);
 
         function addressReady(items) {
             vm.addresses = items;
+            vm.mapOptions = {
+                zoom: 14,
+                center: new google.maps.LatLng(33.790807, -117.835734),
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                scrollwheel: false
+            };
         }
 
         vm.addAddress = function () {
@@ -26,10 +32,6 @@ function AddressController($scope, editableOptions, editableThemes, configs, $q,
         vm.cancel = function () {
             for (var i = vm.addresses.length; i--;) {
                 var address = vm.addresses[i];
-                // undelete
-                //if (address.isDeleted) {
-                //    delete address.isDeleted;
-                //}
                 // remove new
                 if (address.isNew) {
                     vm.addresses.splice(i, 1);
@@ -39,10 +41,6 @@ function AddressController($scope, editableOptions, editableThemes, configs, $q,
         // save edits
         vm.saveAddress = function (index) {
             var address = vm.addresses[index];
-            // actually delete user
-            if (address.isDeleted) {
-                vm.addresses.splice(index, 1);
-            }
             // mark as not new
             if (address.isNew) {
                 address.isNew = false;
@@ -55,10 +53,19 @@ function AddressController($scope, editableOptions, editableThemes, configs, $q,
         // delete
         vm.removeAddress = function (index) {
             var address = vm.addresses[index];
+            console.log(address._id);
             AddressLoader.deleteAddress(address._id, function () {
                 vm.addresses.splice(index, 1);
                 console.log('removed');
             });
+        };
+        vm.checkOnNew = function (form, index) {
+            if (vm.addresses[index].isNew) {
+                form.$show();
+            }
+        };
+        vm.getLocation = function (form) {
+            console.log(form.$data);
         };
     }
 }

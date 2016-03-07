@@ -13,6 +13,7 @@ app.use("/docs", express.static(__dirname + "/docs"));
 app.use("/public", express.static(__dirname + "/public"));
 app.use("/dist", express.static(__dirname + "/dist"));
 app.use("/bower_components", express.static(__dirname + "/bower_components"));
+app.use("/vendor", express.static(__dirname + "/vendor"));
 
 app.use(methodOverride());
 

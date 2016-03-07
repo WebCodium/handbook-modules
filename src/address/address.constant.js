@@ -20,5 +20,11 @@ angular
             set: '/server/address',
             delete: '/server/address/'
         },
-        deleteMethod: 'delete'
+        deleteMethod: 'delete',
+        types: {
+            country: '(regions)',
+            locality: '(cities)',
+            postal_code: 'geocode',
+            route: 'address'
+        }
     });

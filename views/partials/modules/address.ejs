@@ -1,42 +1,62 @@
 <h3>Address</h3>
 
-<div ng-controller="AddressController as form">
-    <div class="row m-b_20" ng-repeat="item in form.addresses">
-        <div class="col-xs-3">
-            Address
-        </div>
-        <div class="col-xs-9">
-            <div class="form-group">
-                <span editable-text="item.title" e-form="addressForm" e-placeholder="Title">{{ item.title || &apos;empty&apos;  }}</span>
-            </div>
-            <div class="form-group">
-                <span editable-text="item.state" e-form="addressForm" e-placeholder="State">{{ item.state || &apos;empty&apos;  }}</span>
-            </div>
-            <div class="form-group">
-                <span editable-text="item.city" e-form="addressForm" e-placeholder="City">{{ item.city || &apos;empty&apos;  }}</span>
-            </div>
-            <div class="form-group">
-                    <span editable-text="item.zipcode"
-                          e-form="addressForm" e-placeholder="Zipcode">{{ item.zipcode || &apos;empty&apos;  }}</span>
-            </div>
-            <div class="form-group">
-                    <span editable-text="item.address"
-                          e-form="addressForm" e-placeholder="Address">{{ item.address || &apos;empty&apos;  }}</span>
-            </div>
-            <button class="btn btn-default" ng-click="addressForm.$show()" ng-show="!addressForm.$visible">Edit
-            </button>
-            <button class="btn btn-default" ng-click="form.removeAddress($index)" ng-show="!addressForm.$visible">Remove
-            </button>
-            <form editable-form name="addressForm" oncancel="form.cancel()" onaftersave="form.saveAddress($index)">
-                <div class="btn-form" ng-show="addressForm.$visible">
-                    <button type="submit" ng-disabled="addressForm.$waiting" class="btn btn-primary">save</button>
-                    <button type="button" ng-disabled="addressForm.$waiting" ng-click="addressForm.$cancel()"
-                            class="btn btn-default">cancel
-                    </button>
+<div ng-controller="AddressController as form" class="frame-adresses">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row m-b_20" ng-repeat="item in form.addresses">
+                <div class="col-md-3">
+                    Address
                 </div>
-            </form>
+                <div class="col-md-9">
+                    <form editable-form name="addressForm" oncancel="form.cancel()"
+                          onaftersave="form.saveAddress($index)">
+                        <div class="form-group">
+                            <span editable-text="item.title" e-form="addressForm" e-placeholder="Title">{{ item.title || &apos;empty&apos;  }}</span>
+                        </div>
+                        <div class="form-group">
+                    <span editable-text="item.state" e-form="addressForm"
+                          e-googleplace="'country'" e-name="country" e-placeholder="State">{{ item.state || &apos;empty&apos;  }}</span>
+                        </div>
+                        <div class="form-group">
+                    <span editable-text="item.city" e-form="addressForm" e-googleplace="'locality'" e-name="locality"
+                          e-placeholder="City">{{ item.city || &apos;empty&apos;  }}</span>
+                        </div>
+                        <div class="form-group">
+                    <span editable-text="item.zipcode"
+                          e-form="addressForm" e-placeholder="Zipcode" e-googleplace="'postal_code'"
+                          e-name="postal_code">{{ item.zipcode || &apos;empty&apos;  }}</span>
+                        </div>
+                        <div class="form-group">
+                    <span editable-text="item.address"
+                          e-form="addressForm" e-placeholder="Address" e-googleplace="'route'" e-name="route">{{ item.address || &apos;empty&apos;  }}</span>
+                        </div>
+                        <button type="button" class="btn btn-default" ng-click="addressForm.$show()"
+                                ng-show="!addressForm.$visible">Edit
+                        </button>
+                        <button type="button" class="btn btn-default" ng-click="form.removeAddress($index)"
+                                ng-show="!addressForm.$visible">
+                            Remove
+                        </button>
+                        <a href="#" ng-click="form.getLocation(addressForm)" ng-show="!addressForm.$visible">View on a
+                            map</a>
+
+                        <div class="btn-form" ng-show="addressForm.$visible"
+                             ng-init="form.checkOnNew(addressForm, $index)">
+                            <button type="submit" ng-disabled="addressForm.$waiting" class="btn btn-primary">save
+                            </button>
+                            <button type="button" ng-disabled="addressForm.$waiting" ng-click="addressForm.$cancel()"
+                                    class="btn btn-default">cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div ui-map="addressMap" ui-options="mapOptions" class="gmap"></div>
         </div>
     </div>
+
     <button type="button" ng-click="form.addAddress()"
             class="btn btn-default">Add place
     </button>
