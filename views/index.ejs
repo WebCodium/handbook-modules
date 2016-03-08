@@ -11,18 +11,15 @@
     <script src="/bower_components/bootstrap/js/affix.js"></script>
 
     <script src="/bower_components/angular/angular.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+    <script src="/public/scripts/main.js"></script>
+
     <script src="/bower_components/angular-xeditable/dist/js/xeditable.min.js"></script>
-    <script src="/vendor/load-google-maps.js"></script>
-    <script>
-        loadGoogleMaps();
-    </script>
+
     <script src="/bower_components/angular-ui-event/dist/event.min.js"></script>
     <script src="/bower_components/angular-ui-map/ui-map.min.js"></script>
 
     <script src="/dist/app.js"></script>
     <script src="/dist/templates.js"></script>
-    <script src="/public/scripts/main.js"></script>
 </head>
 
 <body data-spy="scroll" data-target="#navbar-example">
@@ -43,5 +40,6 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&v=3.exp&sensor=false"></script>
 </body>
 </html>

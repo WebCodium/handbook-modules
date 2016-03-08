@@ -6,7 +6,9 @@ var schema = new mongoose.Schema({
     state: 'string',
     city: 'string',
     zipcode: 'string',
-    address: 'string'
+    address: 'string',
+    lat: 'number',
+    lng: 'number'
 });
 
 exports.Address = mongoose.model('Address', schema);

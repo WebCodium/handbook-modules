@@ -2,7 +2,7 @@
 
 <div ng-controller="AddressController as form" class="frame-adresses">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="row m-b_20" ng-repeat="item in form.addresses">
                 <div class="col-md-3">
                     Address
@@ -15,20 +15,24 @@
                         </div>
                         <div class="form-group">
                     <span editable-text="item.state" e-form="addressForm"
-                          e-googleplace="'country'" e-name="country" e-placeholder="State">{{ item.state || &apos;empty&apos;  }}</span>
+                          e-googleplace="'country'" e-name="country" e-lat="form.lat.country" e-lng="form.lng.country"
+                          e-placeholder="State">{{ item.state || &apos;empty&apos;  }}</span>
                         </div>
                         <div class="form-group">
                     <span editable-text="item.city" e-form="addressForm" e-googleplace="'locality'" e-name="locality"
+                          e-lat="form.lat.locality" e-lng="form.lng.locality"
                           e-placeholder="City">{{ item.city || &apos;empty&apos;  }}</span>
                         </div>
                         <div class="form-group">
                     <span editable-text="item.zipcode"
                           e-form="addressForm" e-placeholder="Zipcode" e-googleplace="'postal_code'"
+                          e-lat="form.lat.postal_code" e-lng="form.lng.postal_code"
                           e-name="postal_code">{{ item.zipcode || &apos;empty&apos;  }}</span>
                         </div>
                         <div class="form-group">
                     <span editable-text="item.address"
-                          e-form="addressForm" e-placeholder="Address" e-googleplace="'route'" e-name="route">{{ item.address || &apos;empty&apos;  }}</span>
+                          e-form="addressForm" e-placeholder="Address" e-googleplace="'route'" e-name="route"
+                          e-lat="form.lat.route" e-lng="form.lng.route">{{ item.address || &apos;empty&apos;  }}</span>
                         </div>
                         <button type="button" class="btn btn-default" ng-click="addressForm.$show()"
                                 ng-show="!addressForm.$visible">Edit
@@ -37,7 +41,7 @@
                                 ng-show="!addressForm.$visible">
                             Remove
                         </button>
-                        <a href="#" ng-click="form.getLocation(addressForm)" ng-show="!addressForm.$visible">View on a
+                        <a ng-click="form.viewLocation(item.lat, item.lng)" ng-show="!addressForm.$visible">View on a
                             map</a>
 
                         <div class="btn-form" ng-show="addressForm.$visible"
@@ -52,8 +56,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div ui-map="addressMap" ui-options="mapOptions" class="gmap"></div>
+        <div class="col-md-6">
+            <div ui-map="form.addressMap" ui-options="form.mapOptions" class="gmap"></div>
         </div>
     </div>
 

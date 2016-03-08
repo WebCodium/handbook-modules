@@ -19,7 +19,9 @@ function address(AddressLoader) {
         require: 'ngModel',
         link: link,
         scope: {
-            googleplace: '='
+            googleplace: '=',
+            lat: '=?',
+            lng: '=?'
         }
     };
     return directive;
@@ -44,11 +46,15 @@ function address(AddressLoader) {
                     btnSubmit.attr('type', 'button');
                 }
             });
-
         google.maps.event.addListener(scope.gPlace, 'place_changed', function () {
             var place = scope.gPlace.getPlace();
             var name = place.formatted_address;
+            scope.$apply(function () {
+                scope.lat = place.geometry.location.lat();
+                scope.lng = place.geometry.location.lng();
+            });
             if (scope.googleplace !== 'route') {
+
                 angular.forEach(place.address_components, function (component) {
                     var addressType = component.types[0];
                     if (addressType === scope.googleplace) {

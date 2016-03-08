@@ -3,4 +3,5 @@
         $('body').scrollspy({target: '#navbar-example'})
     });
 })(jQuery);
+
 angular.module('demo', ['handbook']);

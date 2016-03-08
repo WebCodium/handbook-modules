@@ -26,5 +26,16 @@ angular
             locality: '(cities)',
             postal_code: 'geocode',
             route: 'address'
+        },
+        mapOptions: {
+            default: {
+                zoom: 13,
+                scrollwheel: false
+            },
+            onLoad: {
+                mapOptionTypeId: 'ROADMAP',
+                lat: 49.8500,
+                lng: 24.0167
+            }
         }
     });
