@@ -131,7 +131,7 @@ function AddressController(editableOptions, editableThemes, configs, AddressLoad
      * @param {Object} [fields] Object with keys and default values
      */
     function addAddress(fields) {
-        vm.addresses.push(angular.extend({isNew: true}, fields || config.fields));
+        vm.addresses.push(angular.extend({isNew: true}, fields || configs.fields));
     }
 
     /**
