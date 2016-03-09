@@ -13,7 +13,6 @@ angular
             route: 'long_name',
             locality: 'long_name',
             postal_code: 'short_name',
-            postal_code: 'short_name',
             sublocality_level_1: 'long_name',
             country: 'long_name'
         },
@@ -26,7 +25,6 @@ angular
         types: {
             country: '(regions)',
             locality: '(cities)',
-            postal_code: 'geocode',
             route: 'address'
         },
         mapOptions: {
