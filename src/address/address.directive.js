@@ -1,11 +1,18 @@
 /**
- * @memberof skills
- * @name skill-default
+ * @memberof address
+ * @name googleplace
  * @ngdoc directive
- * @param  {service} $timeout     Angular window.setTimeout wrapper
- * @restrict EA
+ * @param configs {constants} Default options for module
+ * @param AddressLoader {service} Get Set and Delete addresses
+ * @param $timeout {service} Angular window.setTimeout wrapper
+ * @restrict A
  * @description
- * Displays skill's rating
+ * Include google autocomplete for input
+ * @attr {string} googleplace -
+ * @attr {float} [lat] - Latitude for google map
+ * @attr {float} [lng] - Longitude for google map
+ * @example
+ * <input type="text" googlepace="'address'" lat="latValue" lng="lngValue"/>
  */
 
 angular
@@ -30,12 +37,16 @@ function address(AddressLoader, configs, $timeout) {
         var options = {
             types: AddressLoader.getGoogleType(scope.googleplace)
         };
+        //create instance
         scope.gPlace = new google.maps.places.Autocomplete(element[0], options);
 
+        //detect form
         var parent = element.parent();
         while (!parent.is('form')) {
             parent = parent.parent();
         }
+
+        //for prevent form submit on enter (xeditable)
         var btnSubmit = parent.find('[type="submit"], .js-button-submit').addClass('js-button-submit');
         element
             .keyup(function (e) {
@@ -56,9 +67,12 @@ function address(AddressLoader, configs, $timeout) {
             .focus(function () {
                 btnSubmit.attr('type', 'button');
             });
+
+        //add listener on change input value
         google.maps.event.addListener(scope.gPlace, 'place_changed', function () {
             var place = scope.gPlace.getPlace();
             var name = place.formatted_address || '';
+            //apply lat and lng
             scope.$apply(function () {
                 if (place.geometry) {
                     scope.lat = place.geometry.location.lat();
@@ -69,6 +83,7 @@ function address(AddressLoader, configs, $timeout) {
                     scope.lng = null;
                 }
             });
+            //get short name for cetain type
             if (scope.googleplace !== 'route') {
                 angular.forEach(place.address_components, function (component) {
                     var addressType = component.types[0];
@@ -78,7 +93,9 @@ function address(AddressLoader, configs, $timeout) {
                     }
                 });
             }
+
             model.$setViewValue(name);
+            //set value forcibily for xeditable
             element[0].value = name;
         });
     }

@@ -116,9 +116,6 @@ gulp.task('docs', ['docs:base', 'vendor:docs'], function () {
             '<script src="../vendor/javascript.js"></script>' +
             '<script src="../vendor/htmlmixed.js"></script>' +
             '<link rel="stylesheet" href="../vendor/codemirror.css">' +
-            '<script src="../vendor/angular.js"></script>' +
-            '<script src="../vendor/app.js"></script>' +
-            '<script src="../vendor/templates.js"></script>' +
             '<style>body{padding: 10px;}.CodeMirror {height: auto;}.CodeMirror-scroll{height: auto}</style>' +
             '</head><body>' +
             '<div id="html" style="display: none;">',
@@ -138,23 +135,13 @@ gulp.task('docs', ['docs:base', 'vendor:docs'], function () {
                     '<div id="example">' +
                     '</div>' +
                     '</div>' +
-                    '<div ng-app="demo" ng-cloak>' +
-                    '<div id="frameResultExample" style="display: none;">' +
-                    '<h2>Result example</h2>' +
-                    '<div id="exampleResult">' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
                     '<h2>Template</h2>' +
                     '<div id="code"></div>' +
-                    '<script>angular.module(\'demo\', [\'handbook\']);</script>' +
                     '<script type="text/javascript">' +
                     'var editor = CodeMirror(document.getElementById("code"), {lineNumbers: true,mode: "text/html",readOnly:true,value: document.getElementById(\'html\').innerHTML.replace(new RegExp("<!--(?:.*\\\\s){0,}-->", "g"), "").trim()});' +
                     'var matches = (new RegExp("<!--((?:.*\\\\s){0,})-->", "g")).exec(document.getElementById(\'html\').innerHTML);' +
                     'if (matches && matches[1]){' +
                     'document.getElementById(\'frameExample\').style.display=\'block\';' +
-                    'document.getElementById(\'frameResultExample\').style.display=\'block\';' +
-                    'document.getElementById(\'exampleResult\').innerHTML = matches[1];' +
                     'var editor2 = CodeMirror(document.getElementById("example"), {lineNumbers: true,mode: "text/html",readOnly:true,value: matches[1].trim()});' +
                     '}' +
                     '</script>' +

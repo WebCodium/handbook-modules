@@ -23,10 +23,7 @@
     "angular-bootstrap": "~1.1.0",
     "angular-xeditable": "^0.1.10",
     "codemirror": "^5.12.0",
-    "angular-google-places-autocomplete": "^0.2.7",
     "angular-ui-map": "^0.5.0",
-    "angular-ui-event": "^1.0.0",
-    "angular-ui-router": "^0.2.18",
-    "oclazyload": "^1.0.9"
+    "angular-ui-event": "^1.0.0"
   }
 }

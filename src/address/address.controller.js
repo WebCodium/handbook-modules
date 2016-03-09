@@ -1,131 +1,220 @@
+/**
+ * @memberof address
+ * @name AddressController
+ * @ngdoc controller
+ * @description
+ * Controller for address module
+ * @param editableOptions {service} Edits default option for angular-xeditable module
+ * @param editableThemes {service} Edits styles for xeditable
+ * @param configs {constants} Default options for module
+ * @param AddressLoader {service} Get Set and Delete addresses
+ * @param $timeout {service} Angular window.setTimeout wrapper
+ */
 angular
     .module('app.address')
     .controller('AddressController', AddressController);
 
-AddressController.$inject = ['$scope', 'editableOptions', 'editableThemes', 'configs', 'AddressLoader', '$timeout'];
-function AddressController($scope, editableOptions, editableThemes, configs, AddressLoader, $timeout) {
+/**
+ * @namespace
+ * @ignore
+ */
+AddressController.$inject = ['editableOptions', 'editableThemes', 'configs', 'AddressLoader', '$timeout'];
+function AddressController(editableOptions, editableThemes, configs, AddressLoader, $timeout) {
+    /**
+     * @namespace
+     * @ignore
+     */
     var vm = this;
-    activate();
+    /**
+     * @namespace
+     * @ignore
+     */
+    var position = new google.maps.LatLng(configs.mapOptions.onLoad.lat, configs.mapOptions.onLoad.lng);
+    /**
+     * @namespace
+     * @ignore
+     */
+    var priorityLatLng = configs.priorityLatLng;
 
-    ////////////////
+    //set theme xeditable
+    editableOptions.theme = configs.optionsXeditable.theme;
+    //extend default options xeditable
+    angular.extend(editableThemes[configs.optionsXeditable.theme], configs.optionsXeditable.options);
 
-    function activate() {
-        var position = new google.maps.LatLng(configs.mapOptions.onLoad.lat, configs.mapOptions.onLoad.lng);
-        var priorityLatLng = ['route', 'sublocality_level_1', 'locality', 'country'];
-        var markers = [];
+    //get addresses
+    AddressLoader.getAddress(addressReady);
 
-        editableOptions.theme = 'bs3';
-        editableThemes.bs3.inputClass = 'input-sm';
-
-        AddressLoader.getAddress(addressReady);
-
-        vm.mapOptions = angular.extend(
-            configs.mapOptions.default, {
-                mapTypeId: google.maps.MapTypeId[configs.mapOptions.onLoad.mapOptionTypeId],
-                center: position
-            });
-
-        // used timeout to wait maps to be ready before add a markers
-        $timeout(function () {
-            addMarker(vm.addressMap, position);
+    //set options for map
+    vm.mapOptions = angular.extend(
+        configs.mapOptions.default, {
+            mapTypeId: google.maps.MapTypeId[configs.mapOptions.onLoad.mapOptionTypeId],
+            center: position
         });
 
-        function addMarker(map, position) {
-            var marker = new google.maps.Marker({
-                map: map,
-                position: position
-            });
-            markers.push(marker);
-            return marker;
+    vm.addAddress = addAddress;
+    vm.cancel = cancel;
+    vm.saveAddress = saveAddress;
+    vm.removeAddress = removeAddress;
+    vm.formShowWhenNew = formShowWhenNew;
+    vm.viewLocation = viewLocation;
+
+    // used timeout to wait maps to be ready before add a markers
+    $timeout(function () {
+        addMarker(vm.addressMap, position);
+    });
+
+    //add Marker
+    /**
+     * @namespace
+     * @ignore
+     */
+    function addMarker(map, position) {
+        if (!markers){
+            markers = [];
         }
-
-        //remove all marker
-        function setMapOnAll(map) {
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].setMap(map);
-            }
-        }
-
-        function setCenter(map, lat, lng) {
-            map.setCenter({lat: lat, lng: lng});
-        }
-
-        //callback when addresses are loaded
-        function addressReady(items) {
-            vm.addresses = [];
-            angular.forEach(items, function (item) {
-                item.latLng = angular.fromJson(item.latLng);
-                this.push(item);
-            }, vm.addresses);
-        }
-
-        vm.addAddress = function () {
-            vm.addresses.push(angular.extend({isNew: true}, configs.fields));
-        };
-
-        // cancel all changes
-        vm.cancel = function (index) {
-            var address = vm.addresses[index];
-            // remove new
-            if (address.isNew) {
-                vm.addresses.splice(index, 1);
-            }
-        };
-        // save edits
-        vm.saveAddress = function (index) {
-            var address = vm.addresses[index];
-            var latLng = {};
-
-            if (address.latLng) {
-                var keep = true;
-
-                // compose main lat and lng
-                angular.forEach(priorityLatLng, function (item) {
-                    if (keep && address.latLng.lat[item] && address.latLng.lng[item]) {
-                        this.lat = address.latLng.lat[item];
-                        this.lng = address.latLng.lng[item];
-                        keep = false;
-                    }
-                }, latLng);
-
-                angular.extend(address, {
-                    latLng: JSON.stringify({
-                        lat: address.latLng.lat,
-                        lng: address.latLng.lng,
-                        main: latLng
-                    })
-                });
-            }
-
-            // mark as not new
-            if (address.isNew) {
-                address.isNew = false;
-            }
-            // send on server
-            AddressLoader.setAddress(address, function (data) {
-                data.latLng = angular.fromJson(data.latLng);
-                vm.addresses[index] = data;
-            });
-        };
-        // delete
-        vm.removeAddress = function (index) {
-            var address = vm.addresses[index];
-            AddressLoader.deleteAddress(address._id, function () {
-                vm.addresses.splice(index, 1);
-                console.log('removed');
-            });
-        };
-        // show input on start create address
-        vm.formShowWhenNew = function (form, index) {
-            if (vm.addresses[index].isNew) {
-                form.$show();
-            }
-        };
-        //show address on map
-        vm.viewLocation = function (lat, lng) {
-            setMapOnAll(null);
-            addMarker(this.addressMap, new google.maps.LatLng(lat, lng));
-            setCenter(this.addressMap, lat, lng);
-        };
+        var marker = new google.maps.Marker({
+            map: map,
+            position: position
+        });
+        markers.push(marker);
     }
+
+    //remove all marker
+    /**
+     * @namespace
+     * @ignore
+     */
+    function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+        }
+    }
+
+    //set center
+    /**
+     * @namespace
+     * @ignore
+     */
+    function setCenter(map, lat, lng) {
+        map.setCenter({lat: lat, lng: lng});
+    }
+
+
+    //callback when addresses are loaded
+    /**
+     * @namespace
+     * @ignore
+     */
+    function addressReady(items) {
+        vm.addresses = [];
+        angular.forEach(items, function (item) {
+            item.latLng = angular.fromJson(item.latLng);
+            this.push(item);
+        }, vm.addresses);
+    }
+
+    //add new empty address
+    /**
+     * For creating new address
+     * ```
+     *  {
+     *      title: null,
+     *      state: null,
+     *      city: null,
+     *      zipcode: null,
+     *      address: null,
+     *      latLng: null
+     *   }
+     * ```
+     * @param {Object} [fields] Object with keys and default values
+     */
+    function addAddress(fields) {
+        vm.addresses.push(angular.extend({isNew: true}, fields || config.fields));
+    }
+
+    /**
+     * @param {integer} [index] - index of address (`$index` in ng-repeat)
+     */
+    // cancel all changes
+    function cancel(index) {
+        var address = vm.addresses[index];
+        // remove new
+        if (address.isNew) {
+            vm.addresses.splice(index, 1);
+        }
+    };
+
+    /**
+     * @param {integer} [index] - index of address (`$index` in ng-repeat)
+     */
+    // save edits
+    function saveAddress(index) {
+        var address = vm.addresses[index];
+        var latLng = {};
+
+        if (address.latLng) {
+            var keep = true;
+
+            // compose main lat and lng
+            angular.forEach(priorityLatLng, function (item) {
+                if (keep && address.latLng.lat[item] && address.latLng.lng[item]) {
+                    this.lat = address.latLng.lat[item];
+                    this.lng = address.latLng.lng[item];
+                    keep = false;
+                }
+            }, latLng);
+
+            angular.extend(address, {
+                latLng: JSON.stringify({
+                    lat: address.latLng.lat,
+                    lng: address.latLng.lng,
+                    main: latLng
+                })
+            });
+        }
+
+        // mark as not new
+        if (address.isNew) {
+            address.isNew = false;
+        }
+        // send on server
+        AddressLoader.setAddress(address, function (data) {
+            data.latLng = angular.fromJson(data.latLng);
+            vm.addresses[index] = data;
+        });
+    };
+
+    /**
+     * @param {integer} [index] - index of address (`$index` in ng-repeat)
+     */
+    // delete address by index
+    function removeAddress(index) {
+        var address = vm.addresses[index];
+        AddressLoader.deleteAddress(address._id, function () {
+            vm.addresses.splice(index, 1);
+            console.log('removed');
+        });
+    };
+
+    /**
+     * @param {Object} form xeditable form
+     * @param {integer} [index] - index of address (`$index` in ng-repeat)
+     */
+    // show input on start create address
+    function formShowWhenNew(form, index) {
+        if (vm.addresses[index].isNew) {
+            form.$show();
+        }
+    };
+
+    /**
+     * @param lat {float} Latitude for google map
+     * @param lng {float} Longitude for google map
+     */
+    //show address on map
+    function viewLocation(lat, lng) {
+        setMapOnAll(null);
+        addMarker(this.addressMap, new google.maps.LatLng(lat, lng));
+        setCenter(this.addressMap, lat, lng);
+    };
 }

@@ -1,4 +1,7 @@
-<h3>Address</h3>
+<h3>
+    Address
+    <a href="/docs/panels.panel-default.html">See documentation</a>
+</h3>
 
 <div ng-controller="AddressController as form" class="frame-adresses">
     <div class="row">
@@ -43,9 +46,10 @@
                                 ng-show="!addressForm.$visible">
                             Remove
                         </button>
-                        <a ng-click="form.viewLocation(item.latLng.main.lat, item.latLng.main.lng)"
-                           ng-show="!addressForm.$visible">View on a
-                            map</a>
+                        <button type="button" class="btn btn-success"
+                                ng-click="form.viewLocation(item.latLng.main.lat, item.latLng.main.lng)"
+                                ng-show="!addressForm.$visible">View on a map
+                        </button>
 
                         <div class="btn-form" ng-show="addressForm.$visible"
                              ng-init="form.formShowWhenNew(addressForm, $index)">
