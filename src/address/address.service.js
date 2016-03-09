@@ -12,7 +12,7 @@ function AddressLoader($http, configs) {
     ////////////////
 
     function getAddress(onReady, onError) {
-        var addressURL = configs.url.get;
+        var addressURL = configs.urls.get;
 
         onError = onError || function () {
                 alert('Failure loading addresses');
@@ -25,7 +25,7 @@ function AddressLoader($http, configs) {
     }
 
     function setAddress(data, onReady, onError) {
-        var addressURL = configs.url.set;
+        var addressURL = configs.urls.set;
 
         onError = onError || function () {
                 alert('Failure saving address');
@@ -38,7 +38,7 @@ function AddressLoader($http, configs) {
     }
 
     function deleteAddress(id, onReady, onError) {
-        var addressURL = configs.url.delete + id;
+        var addressURL = configs.urls.delete + id;
 
         onError = onError || function () {
                 alert('Failure delete address');

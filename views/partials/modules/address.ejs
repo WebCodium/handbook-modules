@@ -15,24 +15,24 @@
                         </div>
                         <div class="form-group">
                     <span editable-text="item.state" e-form="addressForm"
-                          e-googleplace="'country'" e-name="country" e-lat="form.lat.country" e-lng="form.lng.country"
+                          e-googleplace="'country'" e-name="country" e-lat="item.latLng.lat.country" e-lng="item.latLng.lng.country"
                           e-placeholder="State">{{ item.state || &apos;empty&apos;  }}</span>
                         </div>
                         <div class="form-group">
                     <span editable-text="item.city" e-form="addressForm" e-googleplace="'locality'" e-name="locality"
-                          e-lat="form.lat.locality" e-lng="form.lng.locality"
+                          e-lat="item.latLng.lat.locality" e-lng="item.latLng.lng.locality"
                           e-placeholder="City">{{ item.city || &apos;empty&apos;  }}</span>
                         </div>
                         <div class="form-group">
                     <span editable-text="item.zipcode"
                           e-form="addressForm" e-placeholder="Zipcode" e-googleplace="'postal_code'"
-                          e-lat="form.lat.postal_code" e-lng="form.lng.postal_code"
+                          e-lat="item.latLng.lat.postal_code" e-lng="item.latLng.lng.postal_code"
                           e-name="postal_code">{{ item.zipcode || &apos;empty&apos;  }}</span>
                         </div>
                         <div class="form-group">
                     <span editable-text="item.address"
                           e-form="addressForm" e-placeholder="Address" e-googleplace="'route'" e-name="route"
-                          e-lat="form.lat.route" e-lng="form.lng.route">{{ item.address || &apos;empty&apos;  }}</span>
+                          e-lat="item.latLng.lat.route" e-lng="item.latLng.lng.route">{{ item.address || &apos;empty&apos;  }}</span>
                         </div>
                         <button type="button" class="btn btn-default" ng-click="addressForm.$show()"
                                 ng-show="!addressForm.$visible">Edit
@@ -41,7 +41,7 @@
                                 ng-show="!addressForm.$visible">
                             Remove
                         </button>
-                        <a ng-click="form.viewLocation(item.lat, item.lng)" ng-show="!addressForm.$visible">View on a
+                        <a ng-click="form.viewLocation(item.latLng.main.lat, item.latLng.main.lng)" ng-show="!addressForm.$visible">View on a
                             map</a>
 
                         <div class="btn-form" ng-show="addressForm.$visible"

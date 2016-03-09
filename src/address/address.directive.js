@@ -12,8 +12,8 @@ angular
     .module('app.address')
     .directive('googleplace', address);
 
-address.$inject = ['AddressLoader'];
-function address(AddressLoader) {
+address.$inject = ['AddressLoader', 'configs'];
+function address(AddressLoader, configs) {
     var directive = {
         restrict: 'A',
         require: 'ngModel',
@@ -36,29 +36,36 @@ function address(AddressLoader) {
         while (!parent.is('form')) {
             parent = parent.parent();
         }
-        var btnSubmit;
+        var btnSubmit = parent.find('[type="submit"], .js-button-submit').addClass('js-button-submit');
         element
             .keyup(function (e) {
-                btnSubmit = parent.find('[type="submit"], .js-button-submit').addClass('js-button-submit');
                 if (e.keyCode === 13) {
                     btnSubmit.attr('type', 'submit');
                 } else {
                     btnSubmit.attr('type', 'button');
                 }
+            })
+            .blur(function () {
+                btnSubmit.attr('type', 'submit');
             });
         google.maps.event.addListener(scope.gPlace, 'place_changed', function () {
             var place = scope.gPlace.getPlace();
-            var name = place.formatted_address;
+            var name = place.formatted_address || '';
             scope.$apply(function () {
-                scope.lat = place.geometry.location.lat();
-                scope.lng = place.geometry.location.lng();
+                if (place.geometry) {
+                    scope.lat = place.geometry.location.lat();
+                    scope.lng = place.geometry.location.lng();
+                }
+                else {
+                    scope.lat = null;
+                    scope.lng = null;
+                }
             });
             if (scope.googleplace !== 'route') {
-
                 angular.forEach(place.address_components, function (component) {
                     var addressType = component.types[0];
                     if (addressType === scope.googleplace) {
-                        name = component.long_name;
+                        name = component[configs.autocomplete[addressType]];
                     }
                 });
             }

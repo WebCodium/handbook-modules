@@ -11,11 +11,10 @@ angular
         autocomplete: {
             route: 'long_name',
             locality: 'long_name',
-            administrative_area_level_1: 'short_name',
             postal_code: 'short_name',
             country: 'long_name'
         },
-        url: {
+        urls: {
             get: '/server/address',
             set: '/server/address',
             delete: '/server/address/'
@@ -34,6 +33,7 @@ angular
             },
             onLoad: {
                 mapOptionTypeId: 'ROADMAP',
+                //lviv
                 lat: 49.8500,
                 lng: 24.0167
             }

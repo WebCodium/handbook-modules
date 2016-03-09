@@ -11,7 +11,7 @@ function AddressController($scope, editableOptions, editableThemes, configs, Add
 
     function activate() {
         var position = new google.maps.LatLng(configs.mapOptions.onLoad.lat, configs.mapOptions.onLoad.lng);
-        var priorityLatLng = ['route', 'postal_code', 'locality', 'country'];
+        var priorityLatLng = ['route', 'locality', 'country'];
         var markers = [];
 
         editableOptions.theme = 'bs3';
@@ -50,10 +50,13 @@ function AddressController($scope, editableOptions, editableThemes, configs, Add
         }
 
         function addressReady(items) {
-            vm.addresses = items;
+            vm.addresses = [];
+            angular.forEach(items, function (item) {
+                item.latLng = angular.fromJson(item.latLng);
+                this.push(item);
+            }, vm.addresses);
         }
 
-        vm.addMarker = addMarker;
         vm.addAddress = function () {
             vm.addresses.push(angular.extend({isNew: true}, configs.fields));
         };
@@ -71,29 +74,31 @@ function AddressController($scope, editableOptions, editableThemes, configs, Add
         vm.saveAddress = function (index) {
             var latLng = {};
             var keep = true;
+            var address = vm.addresses[index];
+
             angular.forEach(priorityLatLng, function (item) {
-                if (keep && vm.lat[item] && vm.lng[item]) {
-                    this.lat = vm.lat[item];
-                    this.lng = vm.lng[item];
+                if (keep && address.latLng.lat[item] && address.latLng.lng[item]) {
+                    this.lat = address.latLng.lat[item];
+                    this.lng = address.latLng.lng[item];
                     keep = false;
                 }
             }, latLng);
 
-            var address = vm.addresses[index];
             // mark as not new
             if (address.isNew) {
                 address.isNew = false;
             }
-            angular.extend(address, latLng);
+            angular.extend(address, {latLng: JSON.stringify({lat: address.latLng.lat, lng: address.latLng.lng, main: latLng})});
             // send on server
             AddressLoader.setAddress(address, function (data) {
+                data.latLng = angular.fromJson(data.latLng);
                 vm.addresses[index] = data;
+                console.log(data);
             });
         };
         // delete
         vm.removeAddress = function (index) {
             var address = vm.addresses[index];
-            console.log(address._id);
             AddressLoader.deleteAddress(address._id, function () {
                 vm.addresses.splice(index, 1);
                 console.log('removed');
@@ -108,7 +113,6 @@ function AddressController($scope, editableOptions, editableThemes, configs, Add
             setMapOnAll(null);
             addMarker(this.addressMap, new google.maps.LatLng(lat, lng));
             setCenter(this.addressMap, lat, lng);
-            return false;
         };
     }
 }
