@@ -35,6 +35,11 @@ function AddressController(editableOptions, editableThemes, configs, AddressLoad
      * @ignore
      */
     var priorityLatLng = configs.priorityLatLng;
+    /**
+     * @namespace
+     * @ignore
+     */
+    var markers = [];
 
     //set theme xeditable
     editableOptions.theme = configs.optionsXeditable.theme;
@@ -69,9 +74,6 @@ function AddressController(editableOptions, editableThemes, configs, AddressLoad
      * @ignore
      */
     function addMarker(map, position) {
-        if (!markers){
-            markers = [];
-        }
         var marker = new google.maps.Marker({
             map: map,
             position: position
