@@ -6,12 +6,15 @@ angular
             state: null,
             city: null,
             zipcode: null,
-            address: null
+            address: null,
+            latLng: null
         },
         autocomplete: {
             route: 'long_name',
             locality: 'long_name',
             postal_code: 'short_name',
+            postal_code: 'short_name',
+            sublocality_level_1: 'long_name',
             country: 'long_name'
         },
         urls: {

@@ -12,8 +12,8 @@ angular
     .module('app.address')
     .directive('googleplace', address);
 
-address.$inject = ['AddressLoader', 'configs'];
-function address(AddressLoader, configs) {
+address.$inject = ['AddressLoader', 'configs', '$timeout'];
+function address(AddressLoader, configs, $timeout) {
     var directive = {
         restrict: 'A',
         require: 'ngModel',
@@ -41,12 +41,20 @@ function address(AddressLoader, configs) {
             .keyup(function (e) {
                 if (e.keyCode === 13) {
                     btnSubmit.attr('type', 'submit');
+                    if (element.val() === '') {
+                        btnSubmit.click();
+                    }
                 } else {
                     btnSubmit.attr('type', 'button');
                 }
             })
             .blur(function () {
-                btnSubmit.attr('type', 'submit');
+                $timeout(function () {
+                    btnSubmit.attr('type', 'submit');
+                });
+            })
+            .focus(function () {
+                btnSubmit.attr('type', 'button');
             });
         google.maps.event.addListener(scope.gPlace, 'place_changed', function () {
             var place = scope.gPlace.getPlace();
@@ -64,7 +72,8 @@ function address(AddressLoader, configs) {
             if (scope.googleplace !== 'route') {
                 angular.forEach(place.address_components, function (component) {
                     var addressType = component.types[0];
-                    if (addressType === scope.googleplace) {
+                    var cond = angular.isArray(scope.googleplace) ? scope.googleplace.indexOf(addressType) !== -1 : addressType === scope.googleplace;
+                    if (cond) {
                         name = component[configs.autocomplete[addressType]];
                     }
                 });
