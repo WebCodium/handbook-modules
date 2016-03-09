@@ -1,0 +1,31 @@
+h3 Address&nbsp;
+    a(href="/docs/address.AddressController.html") See documentation
+
+.frame-adresses(ng-controller="AddressController as form")
+    .row
+        .col-md-6
+            .row.m-b_20(ng-repeat="item in form.addresses")
+                .col-md-3
+                    | Address
+                .col-md-9
+                    form(editable-form, name="addressForm", oncancel="form.cancel($index)", onaftersave="form.saveAddress($index)")
+                        .form-group
+                            span(editable-text="item.title", e-form="addressForm", e-placeholder="Title", e-required) {{ item.title || &apos;empty&apos; }}
+                        .form-group
+                            span(editable-text="item.state" e-form="addressForm", e-placeholder="State", e-googleplace="'country'", e-lat="item.latLng.lat.country", e-lng="item.latLng.lng.country") {{ item.state || &apos;empty&apos; }}
+                        .form-group
+                            span(editable-text="item.city" e-form="addressForm", e-placeholder="City", e-googleplace="'locality'", e-lat="item.latLng.lat.locality", e-lng="item.latLng.lng.locality") {{ item.city || &apos;empty&apos; }}
+                        .form-group
+                            span(editable-text="item.zipcode" e-form="addressForm", e-placeholder="Zipcode", e-googleplace="['postal_code', 'sublocality_level_1']", e-lat="item.latLng.lat.sublocality_level_1", e-lng="item.latLng.lng.sublocality_level_1") {{ item.zipcode || &apos;empty&apos; }}
+                        .form-group
+                            span(editable-text="item.address" e-form="addressForm", e-placeholder="Address", e-googleplace="'route'", e-lat="item.latLng.lat.route", e-lng="item.latLng.lng.route") {{ item.address || &apos;empty&apos; }}
+                        .btn-group(ng-show="!addressForm.$visible")
+                            button.btn.btn-default(type="button", ng-click="addressForm.$show()") Edit
+                            button.btn.btn-default(type="button", ng-click="form.removeAddress($index)") Remove
+                            button.btn.btn-success(type="button", ng-click="form.viewLocation(item.latLng.main.lat, item.latLng.main.lng)") View on a map
+                        .btn-group(ng-show="addressForm.$visible", ng-init="form.formShowWhenNew(addressForm, $index)")
+                            button.btn.btn-primary(type="submit", ng-disabled="addressForm.$waiting") Save
+                            button.btn.btn-default(type="button", ng-disabled="addressForm.$waiting", ng-click="addressForm.$cancel()") Cancel
+            button.btn.btn-default(type="button", ng-click="form.addAddress()") Add place
+        .col-md-6
+            .gmap(ui-map="form.addressMap", ui-options="form.mapOptions")

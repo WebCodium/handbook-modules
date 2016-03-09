@@ -51,5 +51,8 @@
   "bugs": {
     "url": ""
   },
-  "homepage": "https://github.com/WebCodium/angular-loopify-number-picker#readme"
+  "homepage": "https://github.com/WebCodium/angular-loopify-number-picker#readme",
+  "dependencies": {
+    "jade": "^1.11.0"
+  }
 }

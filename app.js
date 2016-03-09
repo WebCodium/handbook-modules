@@ -6,8 +6,8 @@ var bodyParser = require('body-parser')
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
 var config = require('./config');
 
-app.set('view engine', 'ejs');
-app.engine('ejs', require('ejs-locals'))
+app.set('view engine', 'jade');
+//app.engine('ejs', require('ejs-locals'))
 
 app.use("/docs", express.static(__dirname + "/docs"));
 app.use("/public", express.static(__dirname + "/public"));
