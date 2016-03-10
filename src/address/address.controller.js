@@ -144,7 +144,7 @@ function AddressController(editableOptions, editableThemes, configs, AddressLoad
         if (address.isNew) {
             vm.addresses.splice(index, 1);
         }
-    };
+    }
 
     /**
      * @param {integer} [index] - index of address (`$index` in ng-repeat)
@@ -184,7 +184,7 @@ function AddressController(editableOptions, editableThemes, configs, AddressLoad
             data.latLng = angular.fromJson(data.latLng);
             vm.addresses[index] = data;
         });
-    };
+    }
 
     /**
      * @param {integer} [index] - index of address (`$index` in ng-repeat)
@@ -196,7 +196,7 @@ function AddressController(editableOptions, editableThemes, configs, AddressLoad
             vm.addresses.splice(index, 1);
             console.log('removed');
         });
-    };
+    }
 
     /**
      * @param {Object} form xeditable form
@@ -207,7 +207,7 @@ function AddressController(editableOptions, editableThemes, configs, AddressLoad
         if (vm.addresses[index].isNew) {
             form.$show();
         }
-    };
+    }
 
     /**
      * @param lat {float} Latitude for google map
@@ -218,5 +218,5 @@ function AddressController(editableOptions, editableThemes, configs, AddressLoad
         setMapOnAll(null);
         addMarker(this.addressMap, new google.maps.LatLng(lat, lng));
         setCenter(this.addressMap, lat, lng);
-    };
+    }
 }
