@@ -19,8 +19,16 @@ angular
     .module('app.address')
     .directive('googleplace', address);
 
+/**
+ * @namespace
+ * @ignore
+ */
 address.$inject = ['AddressService', 'configs', '$timeout'];
 function address(AddressService, configs, $timeout) {
+    /**
+     * @namespace
+     * @ignore
+     */
     var directive = {
         restrict: 'A',
         require: 'ngModel',
@@ -33,6 +41,10 @@ function address(AddressService, configs, $timeout) {
     };
     return directive;
 
+    /**
+     * @namespace
+     * @ignore
+     */
     function link(scope, element, attrs, model) {
         var options = {
             types: AddressService.getGoogleType(scope.googleplace)

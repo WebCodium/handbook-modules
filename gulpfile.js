@@ -37,17 +37,19 @@ gulp.task('scripts', function (done) {
 
 var modulesDir = './src/';
 var getModules = function (dir) {
-    return fs.readdirSync(dir)
-        .filter(function (file) {
+    var deferred = Q.defer();
+    fs.readdir(dir, function (err, dirs) {
+        if (err) throw err;
+        deferred.resolve(dirs.filter(function (file) {
             return fs.statSync(path.join(dir, file)).isDirectory();
-        });
+        }));
+    });
+    return deferred.promise;
 };
 
-function templatesGenerate() {
-    var modules = getModules(modulesDir);
+function templatesGenerate(modules) {
     var i = 0;
     var deferred = Q.defer();
-
     modules.map(function (folder) {
         gulp.src(modulesDir + folder + '/*.html')
             .pipe(minifyHtml({
@@ -59,15 +61,14 @@ function templatesGenerate() {
                 module: 'app.' + folder + '.template',
                 standalone: true
             }))
-            .pipe(gulp.dest('dist/templates'));
-        i++;
+            .pipe(gulp.dest('dist/templates'))
+            .on('end', function () {
+                i++;
+                if (i === modules.length) {
+                    deferred.resolve();
+                }
+            });
     });
-    var interval = setInterval(function () {
-        if (i === modules.length) {
-            clearInterval(interval);
-            deferred.resolve();
-        }
-    }, 50);
     return deferred.promise;
 };
 function templatesConcat() {
@@ -83,7 +84,8 @@ function templatesClean() {
 }
 
 gulp.task('templates', function () {
-    templatesGenerate()
+    getModules(modulesDir)
+        .then(templatesGenerate)
         .then(templatesConcat)
         .then(templatesClean);
 });

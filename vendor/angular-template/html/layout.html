@@ -16,23 +16,23 @@
 </head>
 <body ng-app="app">
 
-<nav ng-controller="navController">
+<nav ng-controller="navController" ng-cloak>
 
     <h2><a href="index.html">Index</a></h2>
 
     <h2 ht-repeat="doc in nav.docs">
         <a href="{{doc}}.html">{{doc}}</a>
     </h2>
-    <ul class="module" ht-repeat="(moduleName, module) in nav.module">
+    <ul class="module" ht-repeat="(moduleName, module) in nav.module" ng-if="'{{moduleName}}' !== 'handbook'">
         <!-- {{ moduleVar= moduleName.replace(/[^a-z]/g,'_') }} -->
-        <h3 ht-if="moduleVar">
-            <a href="" ng-click="module{{moduleVar}} = !module{{moduleVar}}">
+        <h3 ht-if="moduleVar" ng-init="condParent.{{ moduleName }} = 'handbook.{{ moduleName }}.html' == currentUrl ? true : false">
+            <a href="handbook.{{ moduleName }}.html" ng-click="module{{moduleVar}} = !module{{moduleVar}}">
                 module: {{ moduleName }}
             </a>
-            <i ng-cloak ng-show="module{{moduleVar}}">+</i>
+            <i ng-show="module{{moduleVar}}">+</i>
         </h3>
         <!--start changes-->
-        <li id="{{moduleName}}" ng-hide="module{{moduleVar}}" ng-init="npi.module{{moduleVar}} = false" ng-cloak>
+        <li id="{{moduleName}}" ng-hide="module{{moduleVar}}" ng-init="npi.module{{moduleVar}} = false">
             <ul class="group" ht-repeat="(groupName, group) in module">
                 <h3>
                     <a href=""
@@ -44,7 +44,7 @@
                 <ul ng-hide="{{moduleVar}}{{groupName}}">
                     <li ht-repeat="(className, klass) in group">
                         <span ng-init="npi.module{{moduleVar}} = '{{klass.jsDocUrl}}' == currentUrl ? true : (npi.module{{moduleVar}} ? true : false)"></span>
-                        <span ng-init="module{{moduleVar}} = npi.module{{moduleVar}} ? false : true"></span>
+                        <span ng-init="module{{moduleVar}} = npi.module{{moduleVar}} || condParent.{{ moduleName }} ? false : true"></span>
                         <a href="{{ klass.jsDocUrl }}" ng-class="{'active': '{{klass.jsDocUrl}}' == currentUrl}"
                            ng-init="{{moduleVar}}{{groupName}} = '{{klass.jsDocUrl}}' == currentUrl ? false : true">{{ className }}</a>
                     </li>
@@ -60,7 +60,6 @@
     <h3 ht-if="data.ngdoc" style="float:right; color:#ccc">
         Angular {{data.ngdoc}}
     </h3>
-
     <h1 class="title">
         {{ title }}
         <a ht-if="data.longname && !data.code"
@@ -70,8 +69,8 @@
            class="name-link signature-attributes"
            href="{{ templateUrl }}">example</a>
     </h1>
-    <div id="main" class="big-container">
 
+    <div id="main" class="big-container">
         <!-- source code html -->
         <article ht-if="data.code">
             <pre class="prettyprint source linenums"><code>{{ code }}</code></pre>
@@ -86,6 +85,9 @@
 
         <!-- class files -->
         <div ht-if="!data.code && !data.readme">
+            <div ht-if="data.memberof !== '' && data.memberof !== 'handbook'">
+                <b>It is a part of module</b> <a href="/handbook.{{data.memberof}}.html">{{data.memberof}}</a>
+            </div>
             <div ht-include="class.html"></div>
         </div>
 
