@@ -6,7 +6,7 @@
  * Controller for address module
  * @param editableOptions {service} Edits default option for angular-xeditable module
  * @param editableThemes {service} Edits styles for xeditable
- * @param configs {constants} Default options for module
+ * @param configs {constants} Configs for module
  * @param AddressService {service} Get Set and Delete addresses
  * @param $timeout {service} Angular window.setTimeout wrapper
  */

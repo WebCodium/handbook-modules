@@ -2,7 +2,7 @@
  * @memberof address
  * @name googleplace
  * @ngdoc directive
- * @param configs {constants} Default options for module
+ * @param configs {constants} Configs for module
  * @param AddressService {service} Get Set and Delete addresses
  * @param $timeout {service} Angular window.setTimeout wrapper
  * @restrict A

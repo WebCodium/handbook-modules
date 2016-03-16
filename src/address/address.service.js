@@ -5,7 +5,7 @@
  * @description
  * Service for address module
  * @param $http {service} Edits default option for angular-xeditable module
- * @param configs {constants} Default options for module
+ * @param configs {constants} Configs for module
  */
 angular
     .module('app.address')

@@ -58,6 +58,7 @@ nav {
 
 .page-wrap #main h1 {
     color: inherit;
+    margin-left: 0;
 }
 
 .big-container {
