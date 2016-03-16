@@ -7,7 +7,7 @@
  * @param editableOptions {service} Edits default option for angular-xeditable module
  * @param editableThemes {service} Edits styles for xeditable
  * @param configs {constants} Default options for module
- * @param AddressLoader {service} Get Set and Delete addresses
+ * @param AddressService {service} Get Set and Delete addresses
  * @param $timeout {service} Angular window.setTimeout wrapper
  */
 angular
@@ -18,8 +18,8 @@ angular
  * @namespace
  * @ignore
  */
-AddressController.$inject = ['editableOptions', 'editableThemes', 'configs', 'AddressLoader', '$timeout'];
-function AddressController(editableOptions, editableThemes, configs, AddressLoader, $timeout) {
+AddressController.$inject = ['editableOptions', 'editableThemes', 'configs', 'AddressService', '$timeout'];
+function AddressController(editableOptions, editableThemes, configs, AddressService, $timeout) {
     /**
      * @namespace
      * @ignore
@@ -47,7 +47,7 @@ function AddressController(editableOptions, editableThemes, configs, AddressLoad
     angular.extend(editableThemes[configs.optionsXeditable.theme], configs.optionsXeditable.options);
 
     //get addresses
-    AddressLoader.getAddress(addressReady);
+    AddressService.getAddress(addressReady);
 
     //set options for map
     vm.mapOptions = angular.extend(
@@ -180,7 +180,7 @@ function AddressController(editableOptions, editableThemes, configs, AddressLoad
             address.isNew = false;
         }
         // send on server
-        AddressLoader.setAddress(address, function (data) {
+        AddressService.setAddress(address, function (data) {
             data.latLng = angular.fromJson(data.latLng);
             vm.addresses[index] = data;
         });
@@ -192,7 +192,7 @@ function AddressController(editableOptions, editableThemes, configs, AddressLoad
     // delete address by index
     function removeAddress(index) {
         var address = vm.addresses[index];
-        AddressLoader.deleteAddress(address._id, function () {
+        AddressService.deleteAddress(address._id, function () {
             vm.addresses.splice(index, 1);
             console.log('removed');
         });

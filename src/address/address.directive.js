@@ -3,7 +3,7 @@
  * @name googleplace
  * @ngdoc directive
  * @param configs {constants} Default options for module
- * @param AddressLoader {service} Get Set and Delete addresses
+ * @param AddressService {service} Get Set and Delete addresses
  * @param $timeout {service} Angular window.setTimeout wrapper
  * @restrict A
  * @description
@@ -19,8 +19,8 @@ angular
     .module('app.address')
     .directive('googleplace', address);
 
-address.$inject = ['AddressLoader', 'configs', '$timeout'];
-function address(AddressLoader, configs, $timeout) {
+address.$inject = ['AddressService', 'configs', '$timeout'];
+function address(AddressService, configs, $timeout) {
     var directive = {
         restrict: 'A',
         require: 'ngModel',
@@ -35,7 +35,7 @@ function address(AddressLoader, configs, $timeout) {
 
     function link(scope, element, attrs, model) {
         var options = {
-            types: AddressLoader.getGoogleType(scope.googleplace)
+            types: AddressService.getGoogleType(scope.googleplace)
         };
         //create instance
         scope.gPlace = new google.maps.places.Autocomplete(element[0], options);

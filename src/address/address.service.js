@@ -1,6 +1,6 @@
 /**
  * @memberof address
- * @name AddressLoader
+ * @name AddressService
  * @ngdoc service
  * @description
  * Service for address module
@@ -9,14 +9,14 @@
  */
 angular
     .module('app.address')
-    .service('AddressLoader', AddressLoader);
+    .service('AddressService', AddressService);
 
 /**
  * @namespace
  * @ignore
  */
-AddressLoader.$inject = ['$http', 'configs'];
-function AddressLoader($http, configs) {
+AddressService.$inject = ['$http', 'configs'];
+function AddressService($http, configs) {
     this.getAddress = getAddress;
     this.setAddress = setAddress;
     this.deleteAddress = deleteAddress;
