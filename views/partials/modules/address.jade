@@ -22,7 +22,7 @@ h3 Address&nbsp;
                         .btn-group(ng-show="!addressForm.$visible")
                             button.btn.btn-default(type="button", ng-click="addressForm.$show()") Edit
                             button.btn.btn-default(type="button", ng-click="form.removeAddress($index)") Remove
-                            button.btn.btn-success(type="button", ng-click="form.viewLocation(item.latLng.main.lat, item.latLng.main.lng)") View on a map
+                            button.btn.btn-success(type="button", ng-if="item.latLng.main.lat && item.latLng.main.lng", ng-click="form.viewLocation(item.latLng.main)") View on a map
                         .btn-group(ng-show="addressForm.$visible", ng-init="form.formShowWhenNew(addressForm, $index)")
                             button.btn.btn-primary(type="submit", ng-disabled="addressForm.$waiting") Save
                             button.btn.btn-default(type="button", ng-disabled="addressForm.$waiting", ng-click="addressForm.$cancel()") Cancel

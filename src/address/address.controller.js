@@ -52,7 +52,7 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
     //set options for map
     vm.mapOptions = angular.extend(
         configs.mapOptions.default, {
-            mapTypeId: google.maps.MapTypeId[configs.mapOptions.onLoad.mapOptionTypeId],
+            mapTypeId: google.maps.MapTypeId[configs.mapOptions.onLoad.mapTypeId],
             center: position
         });
 
@@ -162,6 +162,7 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
                 if (keep && address.latLng.lat[item] && address.latLng.lng[item]) {
                     this.lat = address.latLng.lat[item];
                     this.lng = address.latLng.lng[item];
+                    this.type = item;
                     keep = false;
                 }
             }, latLng);
@@ -214,9 +215,12 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
      * @param lng {float} Longitude for google map
      */
     //show address on map
-    function viewLocation(lat, lng) {
-        setMapOnAll(null);
-        addMarker(this.addressMap, new google.maps.LatLng(lat, lng));
-        setCenter(this.addressMap, lat, lng);
+    function viewLocation(posType) {
+        if (posType.lat !== undefined && posType.lng !== undefined) {
+            setMapOnAll(null);
+            addMarker(this.addressMap, new google.maps.LatLng(posType.lat, posType.lng));
+            this.addressMap.setZoom(configs.mapOptions.zoom[posType.type] || 13);
+            setCenter(this.addressMap, posType.lat, posType.lng);
+        }
     }
 }

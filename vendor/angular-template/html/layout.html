@@ -3,29 +3,16 @@
 <head>
     <base ht-if="data.code" href="../"/>
     <title>JSDoc: {{ title }}</title>
-    <style>
-        dd{
-            margin: 0 0 20px 24px;
-        }
-        nav a.active {
-            font-weight: bold;
-            color: #0095dd !important;
-        }
-    </style>
     <link type="text/css" rel="stylesheet" href="css/jsdoc-default.css"/>
     <link href="css/prettify-tomorrow.css" type="text/css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,700" rel="stylesheet"
           type="text/css">
+    <!--added-->
     <link href="css/custom.css" type="text/css" rel="stylesheet"/>
     <script src="js/prettify.js"></script>
     <script src="js/angular.min.js"></script>
-    <script>
-        angular.module('app', [])
-                .controller('navController', function ($scope, $window) {
-                    $scope.currentUrl = $window.location.pathname.substr(1, $window.location.pathname.length);
-                    $scope.npi = {};
-                });
-    </script>
+    <!--added-->
+    <script src="js/main.js"></script>
 </head>
 <body ng-app="app">
 
@@ -44,7 +31,7 @@
             </a>
             <i ng-cloak ng-show="module{{moduleVar}}">+</i>
         </h3>
-        <!--start-->
+        <!--start changes-->
         <li id="{{moduleName}}" ng-hide="module{{moduleVar}}" ng-init="npi.module{{moduleVar}} = false" ng-cloak>
             <ul class="group" ht-repeat="(groupName, group) in module">
                 <h3>
@@ -64,23 +51,7 @@
                 </ul>
             </ul>
         </li>
-        <!--end-->
-        <!--<li id="{{moduleName}}" ng-hide="module{{moduleVar}}">-->
-        <!--<ul class="group" ht-repeat="(groupName, group) in module">-->
-        <!--<h3>-->
-        <!--<a href=""-->
-        <!--ng-click="{{moduleVar}}{{groupName}} = !{{moduleVar}}{{groupName}}">-->
-        <!--{{ groupName }}-->
-        <!--</a>-->
-        <!--<i ng-cloak ng-show="{{moduleVar}}{{groupName}}">+</i>-->
-        <!--</h3>-->
-        <!--<ul ng-hide="{{moduleVar}}{{groupName}}">-->
-        <!--<li ht-repeat="(className, klass) in group">-->
-        <!--<a href="{{ klass.jsDocUrl }}">{{ className }}</a>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</ul>-->
-        <!--</li>-->
+        <!--end changes-->
     </ul>
 </nav>
 
