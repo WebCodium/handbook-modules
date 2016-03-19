@@ -1,0 +1,33 @@
+h4 Skills change&nbsp;
+    a(href="/docs/address.AddressController.html") See documentation
+.frame-change-skills(ng-controller="SkillChangeController as vm")
+    .row
+        .col-lg-6
+            form.input-group
+                select.form-control(ng-model="vm.skillSelected", chosen)
+                    option(ng-repeat="item in vm.skills", label="{{item.title}}", value="{{item.title}}", ng-disabled="vm.checkDisabled(item)") {{item.title}}
+                .input-group-btn
+                    button.btn.btn-sm.btn-primary(type="submit", ng-click="vm.addUserSkill()") Add new skill
+            .alert.alert-danger(ng-if="vm.isNotSelected") Select skill!
+            .alert.alert-danger(ng-if="vm.isDuplicate") This skill already added
+    div(ng-if="vm.userSkills.length")
+        form.clearfix.m-b_20
+            .btn-group.pull-right
+                label.btn.btn-default(ng-model="vm.radioFilterSkills", uib-btn-radio="null")
+                    | all
+                label.btn.btn-default(ng-model="vm.radioFilterSkills", uib-btn-radio="'title'")
+                    | a-z
+                label.btn.btn-default(ng-model="vm.radioFilterSkills", uib-btn-radio="'-title'")
+                    | z-a
+                label.btn.btn-default(ng-model="vm.radioFilterSkills", uib-btn-radio="'level'")
+                    | low-high
+                label.btn.btn-default(ng-model="vm.radioFilterSkills", uib-btn-radio="'-level'")
+                    | high-low
+        .row(ng-repeat="item in vm.userSkills | orderBy:vm.radioFilterSkills", style="margin-bottom: 5px;")
+            .col-lg-3
+                button.btn.btn-danger.btn-sm(ng-click="vm.removeUserSkill($index)")
+                    | &times;
+                | &nbsp;&nbsp;{{item.title}}
+            .col-lg-9
+                skill-change(level="item.level", slider-options="vm.slider.options", index="$index")
+    .alert.alert-info(ng-if="!vm.userSkills.length") Here are not user's skills

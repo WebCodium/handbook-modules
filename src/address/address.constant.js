@@ -1,6 +1,6 @@
 /**
  * @memberof address
- * @name Configs
+ * @name constantAddress
  * @ngdoc constant
  * @description
  * Configs for address module
@@ -28,7 +28,7 @@
  */
 angular
     .module('app.address')
-    .constant('configs', {
+    .constant('constantAddress', {
         fields: {
             title: null,
             state: null,

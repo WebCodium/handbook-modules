@@ -1,5 +1,5 @@
 /**
- * @memberof skills
+ * @memberof skill
  * @name skill-default
  * @ngdoc directive
  * @param  {service} $timeout     Angular window.setTimeout wrapper
@@ -9,11 +9,11 @@
  */
 
 angular
-    .module('app.skills')
-    .directive('skills', skills);
+    .module('app.skill')
+    .directive('skill', skill);
 
-skills.$inject = [];
-function skills() {
+skill.$inject = [];
+function skill() {
     var directive = {
         link: link,
         restrict: 'EA',

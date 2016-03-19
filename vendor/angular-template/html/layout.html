@@ -26,7 +26,8 @@
     <ul class="module" ht-repeat="(moduleName, module) in nav.module" ng-if="'{{moduleName}}' !== 'handbook'">
         <!-- {{ moduleVar= moduleName.replace(/[^a-z]/g,'_') }} -->
         <h3 ht-if="moduleVar" ng-init="condParent.{{ moduleName }} = 'handbook.{{ moduleName }}.html' == currentUrl ? true : false">
-            <a href="handbook.{{ moduleName }}.html" ng-click="module{{moduleVar}} = !module{{moduleVar}}">
+            <a href="handbook.{{ moduleName }}.html" ng-click="module{{moduleVar}} = !module{{moduleVar}}"
+               ng-class="{'active': 'handbook.{{ moduleName }}.html' == currentUrl}">
                 module: {{ moduleName }}
             </a>
             <i ng-show="module{{moduleVar}}">+</i>
@@ -86,7 +87,7 @@
         <!-- class files -->
         <div ht-if="!data.code && !data.readme">
             <div ht-if="data.memberof !== '' && data.memberof !== 'handbook'">
-                <b>It is a part of module</b> <a href="/handbook.{{data.memberof}}.html">{{data.memberof}}</a>
+                <b>It is a part of module</b> <a href="handbook.{{data.memberof}}.html">{{data.memberof}}</a>
             </div>
             <div ht-include="class.html"></div>
         </div>

@@ -8,7 +8,8 @@
  */
 angular
     .module('handbook', [
+        'ui.bootstrap',
         'app.panels',
-        'app.skills',
+        'app.skill',
         'app.address'
     ]);

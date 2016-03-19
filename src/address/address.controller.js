@@ -6,7 +6,7 @@
  * Controller for address module
  * @param editableOptions {service} Edits default option for angular-xeditable module
  * @param editableThemes {service} Edits styles for xeditable
- * @param configs {constants} Configs for module
+ * @param constantAddress {constants} Configs for module
  * @param AddressService {service} Get Set and Delete addresses
  * @param $timeout {service} Angular window.setTimeout wrapper
  */
@@ -18,8 +18,8 @@ angular
  * @namespace
  * @ignore
  */
-AddressController.$inject = ['editableOptions', 'editableThemes', 'configs', 'AddressService', '$timeout'];
-function AddressController(editableOptions, editableThemes, configs, AddressService, $timeout) {
+AddressController.$inject = ['editableOptions', 'editableThemes', 'constantAddress', 'AddressService', '$timeout', '$window'];
+function AddressController(editableOptions, editableThemes, configs, AddressService, $timeout, $window) {
     /**
      * @namespace
      * @ignore
@@ -29,7 +29,10 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
      * @namespace
      * @ignore
      */
-    var position = new google.maps.LatLng(configs.mapOptions.onLoad.lat, configs.mapOptions.onLoad.lng);
+    vm.google = $window.google;
+    if (vm.google) {
+        var position = new vm.google.maps.LatLng(configs.mapOptions.onLoad.lat, configs.mapOptions.onLoad.lng);
+    }
     /**
      * @namespace
      * @ignore
@@ -47,14 +50,16 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
     angular.extend(editableThemes[configs.optionsXeditable.theme], configs.optionsXeditable.options);
 
     //get addresses
-    AddressService.getAddress(addressReady);
+    AddressService.getAddresses(addressesReady);
 
     //set options for map
-    vm.mapOptions = angular.extend(
-        configs.mapOptions.default, {
-            mapTypeId: google.maps.MapTypeId[configs.mapOptions.onLoad.mapTypeId],
-            center: position
-        });
+    if (vm.google) {
+        vm.mapOptions = angular.extend(
+            configs.mapOptions.default, {
+                mapTypeId: vm.google.maps.MapTypeId[configs.mapOptions.onLoad.mapTypeId],
+                center: position
+            });
+    }
 
     vm.addAddress = addAddress;
     vm.cancel = cancel;
@@ -74,7 +79,9 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
      * @ignore
      */
     function addMarker(map, position) {
-        var marker = new google.maps.Marker({
+        if (!vm.google)
+            return false;
+        var marker = new vm.google.maps.Marker({
             map: map,
             position: position
         });
@@ -107,7 +114,7 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
      * @namespace
      * @ignore
      */
-    function addressReady(items) {
+    function addressesReady(items) {
         vm.addresses = [];
         angular.forEach(items, function (item) {
             item.latLng = angular.fromJson(item.latLng);
@@ -218,7 +225,7 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
     function viewLocation(posType) {
         if (posType.lat !== undefined && posType.lng !== undefined) {
             setMapOnAll(null);
-            addMarker(this.addressMap, new google.maps.LatLng(posType.lat, posType.lng));
+            addMarker(this.addressMap, new vm.google.maps.LatLng(posType.lat, posType.lng));
             this.addressMap.setZoom(configs.mapOptions.zoom[posType.type] || 13);
             setCenter(this.addressMap, posType.lat, posType.lng);
         }

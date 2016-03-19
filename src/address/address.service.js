@@ -4,8 +4,8 @@
  * @ngdoc service
  * @description
  * Service for address module
- * @param $http {service} Edits default option for angular-xeditable module
- * @param configs {constants} Configs for module
+ * @param $http {service} Angular service
+ * @param constantAddress {constants} Configs for module
  */
 angular
     .module('app.address')
@@ -15,9 +15,9 @@ angular
  * @namespace
  * @ignore
  */
-AddressService.$inject = ['$http', 'configs'];
+AddressService.$inject = ['$http', 'constantAddress'];
 function AddressService($http, configs) {
-    this.getAddress = getAddress;
+    this.getAddresses = getAddresses;
     this.setAddress = setAddress;
     this.deleteAddress = deleteAddress;
     this.getGoogleType = getGoogleType;
@@ -48,7 +48,7 @@ function AddressService($http, configs) {
      * @param {function} onReady - callback on success
      * @param {function} [onError] - callback on error
      */
-    function getAddress(onReady, onError) {
+    function getAddresses(onReady, onError) {
         var addressURL = configs.urls.get;
 
         onError = onError || function () {
@@ -67,14 +67,14 @@ function AddressService($http, configs) {
      * @param {function} [onError] - callback on error
      */
     function deleteAddress(id, onReady, onError) {
-        var addressURL = configs.urls.delete + id;
+        var addressDeleteURL = configs.urls.delete + id;
 
         onError = onError || function () {
                 alert('Failure delete address');
             };
 
         $http
-            [configs.deleteMethod](addressURL)
+            [configs.deleteMethod](addressDeleteURL)
             .success(onReady)
             .error(onError);
     }

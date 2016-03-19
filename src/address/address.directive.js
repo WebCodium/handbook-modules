@@ -2,7 +2,7 @@
  * @memberof address
  * @name googleplace
  * @ngdoc directive
- * @param configs {constants} Configs for module
+ * @param constantAddress {constants} Configs for module
  * @param AddressService {service} Get Set and Delete addresses
  * @param $timeout {service} Angular window.setTimeout wrapper
  * @restrict A
@@ -23,8 +23,8 @@ angular
  * @namespace
  * @ignore
  */
-address.$inject = ['AddressService', 'configs', '$timeout'];
-function address(AddressService, configs, $timeout) {
+address.$inject = ['AddressService', 'constantAddress', '$timeout', '$window'];
+function address(AddressService, configs, $timeout, $window) {
     /**
      * @namespace
      * @ignore
@@ -46,6 +46,8 @@ function address(AddressService, configs, $timeout) {
      * @ignore
      */
     function link(scope, element, attrs, model) {
+        if (!$window.google)
+            return false;
         var options = {
             types: AddressService.getGoogleType(scope.googleplace)
         };
