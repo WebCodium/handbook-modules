@@ -12,13 +12,13 @@ angular
     .directive('skillChange', skillChange)
     .directive('chosen', ['$timeout', function ($timeout) {
         var link = function (scope, element, attrs) {
-            var list = attrs['chosen'];
+            var list = attrs.chosen;
 
             scope.$watch(list, function () {
                 element.trigger('chosen:updated');
             });
 
-            scope.$watch(attrs['ngModel'], function () {
+            scope.$watch(attrs.ngModel, function () {
                 $timeout(function () {
                     element.trigger('chosen:updated');
                 }, 0);
@@ -55,6 +55,8 @@ function skillChange(configs) {
         scope.max = scope.levels.length;
         scope.step = 1;
         scope.level = (scope.level || 0) * scope.step;
+        scope.leftSkill = '';
+        scope.rightSkill = '';
 
         scope.getColor = function ($index) {
             return scope.level < 2 ?

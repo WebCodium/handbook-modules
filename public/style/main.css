@@ -2,6 +2,10 @@
     margin-bottom: 20px;
 }
 
+.m-b_10 {
+    margin-bottom: 10px;
+}
+
 [data-spy="scroll"] {
     position: relative;
 }
@@ -65,4 +69,17 @@
 
 .ui-widget-content {
     background-color: #aaaaaa;
+}
+
+.skill-level-text {
+    position: absolute;
+    color: darkolivegreen;
+}
+
+.left-skill-level-text {
+    padding-right: 15px;
+}
+
+.right-skill-level-text {
+    padding-left: 15px;
 }

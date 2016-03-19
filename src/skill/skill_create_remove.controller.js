@@ -46,14 +46,17 @@ function SkillCreateRemoveController(SkillService) {
                 return false;
             }
         }
+        vm.isDisabled = true;
         var index = vm.skillsLength++;
         var skill = {title: vm.nameSkill};
         // send on server
         SkillService.setSkill(skill, function (data) {
             vm.skills[index] = data;
             vm.nameSkill = '';
+            vm.isDisabled = false;
         });
-    };
+    }
+
     function removeSkill(index) {
         var skill = vm.skills[index];
         SkillService.deleteSkill(skill._id, function () {

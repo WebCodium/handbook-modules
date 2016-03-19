@@ -1,6 +1,9 @@
 <div ng-style="{height: height + 'px'}" ui-slider="sliderOptions" min="0" max="{{max}}"
      ng-model="level" data-index="{{index}}"
      step="{{step}}" data-tick>
+    <span class="left-skill-level-text skill-level-text" ng-bind="leftSkill" ng-style="{right: (max - level) * 20 + '%'}"></span>
+    <span class="right-skill-level-text skill-level-text" ng-bind="rightSkill" ng-style="{left: level*20 + '%'}"></span>
+
     <div ng-repeat="level in levels track by $index"
          ng-style="{width: 100/levels.length + '%', backgroundColor: getColor($index)}"
          style="height: 100%;"

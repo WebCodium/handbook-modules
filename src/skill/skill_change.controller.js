@@ -13,8 +13,8 @@ angular
  * @namespace
  * @ignore
  */
-SkillChangeController.$inject = ['$scope', 'SkillService'];
-function SkillChangeController($scope, SkillService) {
+SkillChangeController.$inject = ['$scope', 'SkillService', 'constantSkill'];
+function SkillChangeController($scope, SkillService, configs) {
     /**
      * @namespace
      * @ignore
@@ -33,7 +33,8 @@ function SkillChangeController($scope, SkillService) {
 
     vm.slider = {
         options: {
-            stop: stopSlider
+            stop: stopSlider,
+            slide: slide
         }
     };
 
@@ -98,9 +99,17 @@ function SkillChangeController($scope, SkillService) {
     }
 
     function stopSlider(event, ui) {
-        var index = ui.handle.parentNode.getAttribute('data-index');
+        var index = angular.element(ui.handle).parent().data('index');
         saveUserSkill(vm.userSkills[index], function (data) {
             vm.userSkills[index] = data;
+        });
+    }
+
+    function slide(event, ui) {
+        var scope = angular.element(ui.handle).parent().scope();
+        scope.$apply(function () {
+            scope.leftSkill = configs.textLevels[ui.value - 1];
+            scope.rightSkill = configs.textLevels[ui.value];
         });
     }
 }

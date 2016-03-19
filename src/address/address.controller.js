@@ -30,9 +30,6 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
      * @ignore
      */
     vm.google = $window.google;
-    if (vm.google) {
-        var position = new vm.google.maps.LatLng(configs.mapOptions.onLoad.lat, configs.mapOptions.onLoad.lng);
-    }
     /**
      * @namespace
      * @ignore
@@ -54,11 +51,16 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
 
     //set options for map
     if (vm.google) {
+        var position = new vm.google.maps.LatLng(configs.mapOptions.onLoad.lat, configs.mapOptions.onLoad.lng);
         vm.mapOptions = angular.extend(
             configs.mapOptions.default, {
                 mapTypeId: vm.google.maps.MapTypeId[configs.mapOptions.onLoad.mapTypeId],
                 center: position
             });
+        // used timeout to wait maps to be ready before add a markers
+        $timeout(function () {
+            addMarker(vm.addressMap, position);
+        });
     }
 
     vm.addAddress = addAddress;
@@ -67,11 +69,6 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
     vm.removeAddress = removeAddress;
     vm.formShowWhenNew = formShowWhenNew;
     vm.viewLocation = viewLocation;
-
-    // used timeout to wait maps to be ready before add a markers
-    $timeout(function () {
-        addMarker(vm.addressMap, position);
-    });
 
     //add Marker
     /**

@@ -3,10 +3,12 @@ h4 Skills create and remove&nbsp;
 .frame-create-remove-skills(ng-controller="SkillCreateRemoveController as vm")
     .row.m-b_20
         .col-lg-12
-            form.input-group.m-b_20
-                input.form-control(type="text", aria-label="...", ng-model="vm.nameSkill")
+            form.input-group.m-b_10(name="formCreateSkill", novalidate)
+                input.form-control(type="text", name="skillName", ng-model="vm.nameSkill", ng-required="true")
                 .input-group-btn
-                    button.btn.btn-primary(type="submit", ng-click="vm.createSkill()") Create skill
+                    button.btn.btn-primary(type="submit", ng-click="vm.createSkill()", ng-disabled="vm.isDisabled") Create skill
+            div(ng-show="formCreateSkill.$submitted || formCreateSkill.skillName.$touched")
+                .alert.alert-warning(ng-show="formCreateSkill.skillName.$error.required") Enter a name of skill
             .alert.alert-danger(ng-if="vm.isDuplicate") This skill already exists
             ul.list-inline
                 li.list-group-item.col-lg-3(ng-repeat="skill in vm.skills")

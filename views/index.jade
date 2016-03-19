@@ -1,43 +1,43 @@
-head
-    meta(charset="UTF-8")
-    title Handbook Modules
-    link(rel="stylesheet", href="/bower_components/bootstrap/dist/css/bootstrap.min.css")
-    link(rel="stylesheet", href="/bower_components/angular-xeditable/dist/css/xeditable.css")
-    link(rel="stylesheet", href="/bower_components/chosen/chosen.css")
-    link(rel="stylesheet", href="/public/style/main.css")
-    script(src="/bower_components/jquery/dist/jquery.min.js")
-    script(src="/bower_components/bootstrap/js/scrollspy.js")
-    script(src="/bower_components/bootstrap/js/affix.js")
-
-    script(src="/bower_components/angular/angular.js")
-    script(src="/bower_components/angular-bootstrap/ui-bootstrap.min.js")
-    script(src="/public/scripts/main.js")
-
-    script(src="/bower_components/angular-xeditable/dist/js/xeditable.min.js")
-
-    script(src="/bower_components/angular-ui-event/dist/event.min.js")
-    script(src="/bower_components/angular-ui-map/ui-map.min.js")
-
-    script(src="/bower_components/jquery-ui/ui/minified/jquery-ui.min.js")
-    script(src="/bower_components/angular-ui-slider/src/slider.js")
-    script(src="/bower_components/chosen/chosen.jquery.js")
-    script(src="/bower_components/angular-chosen-localytics/dist/angular-chosen.min.js")
-
-    script(src="/dist/app.js")
-    script(src="/dist/templates.js")
-    body(data-spy="scroll" data-target="#navbar-example")
-    div(class="container")
-        include partials/navbar
-        div.row
-            div.col-md-2
-                include partials/sidebar
-            div.col-md-10.frame-modules
-                div#skills
-                    include partials/modules/skills
-                div#panel-default
-                    include partials/modules/panelDefault
-                div#address
-                    include partials/modules/address
 doctype html
 html(lang="en", ng-app="demo", ng-cloak)
-    script(src="https://maps.googleapis.com/maps/api/js?libraries=places&v=3.exp&sensor=false")
+    head
+        meta(charset="UTF-8")
+        title Handbook Modules
+        link(rel="stylesheet", href="/bower_components/bootstrap/dist/css/bootstrap.min.css")
+        link(rel="stylesheet", href="/bower_components/angular-xeditable/dist/css/xeditable.css")
+        link(rel="stylesheet", href="/bower_components/chosen/chosen.css")
+        link(rel="stylesheet", href="/public/style/main.css")
+        script(src="/bower_components/jquery/dist/jquery.min.js")
+        script(src="/bower_components/bootstrap/js/scrollspy.js")
+        script(src="/bower_components/bootstrap/js/affix.js")
+
+        script(src="/bower_components/angular/angular.js")
+        script(src="/bower_components/angular-bootstrap/ui-bootstrap.min.js")
+        script(src="/public/scripts/main.js")
+
+        script(src="/bower_components/angular-xeditable/dist/js/xeditable.min.js")
+
+        script(src="/bower_components/angular-ui-event/dist/event.min.js")
+        script(src="/bower_components/angular-ui-map/ui-map.min.js")
+
+        script(src="/bower_components/jquery-ui/ui/minified/jquery-ui.min.js")
+        script(src="/bower_components/angular-ui-slider/src/slider.js")
+        script(src="/bower_components/chosen/chosen.jquery.js")
+        script(src="/bower_components/angular-chosen-localytics/dist/angular-chosen.min.js")
+
+        script(src="/dist/app.js")
+        script(src="/dist/templates.js")
+    body(data-spy="scroll" data-target="#navbar-example")
+        div(class="container")
+            include partials/navbar
+            div.row
+                div.col-md-2
+                    include partials/sidebar
+                div.col-md-10.frame-modules
+                    div#skills
+                        include partials/modules/skills
+                    div#panel-default
+                        include partials/modules/panelDefault
+                    div#address
+                        include partials/modules/address
+        script(src="https://maps.googleapis.com/maps/api/js?libraries=places&v=3.exp&sensor=false")
