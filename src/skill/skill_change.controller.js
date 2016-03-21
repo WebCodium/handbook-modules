@@ -50,6 +50,7 @@ function SkillChangeController($scope, SkillService, configs) {
         angular.forEach(items, function (item) {
             this.push(item);
         }, vm.skills);
+        vm.skillSelected = null;
     }
 
     function skillsUserReady(items) {
@@ -85,7 +86,6 @@ function SkillChangeController($scope, SkillService, configs) {
         var skill = vm.userSkills[index];
         SkillService.deleteUserSkill(skill._id, function () {
             vm.userSkills.splice(index, 1);
-            vm.skillSelected = vm.skillSelected ? null : {};
             console.log('removed');
         });
     }
@@ -99,7 +99,13 @@ function SkillChangeController($scope, SkillService, configs) {
     }
 
     function stopSlider(event, ui) {
-        var index = angular.element(ui.handle).parent().data('index');
+        var parent = angular.element(ui.handle).parent();
+        var index = parent.data('index');
+        var scope = parent.scope();
+        scope.$apply(function () {
+            scope.leftSkill = '';
+            scope.rightSkill = '';
+        });
         saveUserSkill(vm.userSkills[index], function (data) {
             vm.userSkills[index] = data;
         });
