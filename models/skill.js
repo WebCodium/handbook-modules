@@ -1,4 +1,4 @@
-var mongoose = require('../app/mongoose');
+var mongoose = require('../db/mongoose');
 
 // define model =================
 var schema = new mongoose.Schema({

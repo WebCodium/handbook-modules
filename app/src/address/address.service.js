@@ -15,8 +15,8 @@ angular
  * @namespace
  * @ignore
  */
-AddressService.$inject = ['$http', 'constantAddress'];
-function AddressService($http, configs) {
+AddressService.$inject = ['$http', 'constantAddress', '$q'];
+function AddressService($http, configs, $q) {
     this.getAddresses = getAddresses;
     this.setAddress = setAddress;
     this.deleteAddress = deleteAddress;
@@ -26,57 +26,60 @@ function AddressService($http, configs) {
 
     /**
      * @param {Object} data - post options
-     * @param {function} onReady - callback on success
-     * @param {function} [onError] - callback on error
      */
     // save address
-    function setAddress(data, onReady, onError) {
+    function setAddress(data) {
+        var deferred = $q.defer();
         var addressURL = configs.urls.set;
-
-        onError = onError || function () {
-                alert('Failure saving address');
-            };
 
         $http
             .post(addressURL, data)
-            .success(onReady)
-            .error(onError);
+            .success(function () {
+                deferred.resolve.apply(deferred, arguments);
+            })
+            .error(function (err) {
+                deferred.reject(err);
+            });
+
+        return deferred.promise;
     }
 
     // cancel all changes
     /**
-     * @param {function} onReady - callback on success
-     * @param {function} [onError] - callback on error
      */
-    function getAddresses(onReady, onError) {
+    function getAddresses() {
+        var deferred = $q.defer();
         var addressURL = configs.urls.get;
-
-        onError = onError || function () {
-                alert('Failure loading addresses');
-            };
 
         $http
             .get(addressURL)
-            .success(onReady)
-            .error(onError);
+            .success(function () {
+                deferred.resolve.apply(deferred, arguments);
+            })
+            .error(function (err) {
+                deferred.reject(err);
+            });
+
+        return deferred.promise;
     }
 
     /**
      * @param {integer} id - id of address
-     * @param {function} onReady - callback on success
-     * @param {function} [onError] - callback on error
      */
-    function deleteAddress(id, onReady, onError) {
+    function deleteAddress(id) {
+        var deferred = $q.defer();
         var addressDeleteURL = configs.urls.delete + id;
-
-        onError = onError || function () {
-                alert('Failure delete address');
-            };
 
         $http
             [configs.deleteMethod](addressDeleteURL)
-            .success(onReady)
-            .error(onError);
+            .success(function () {
+                deferred.resolve.apply(deferred, arguments);
+            })
+            .error(function (err) {
+                deferred.reject(err);
+            });
+
+        return deferred.promise;
     }
 
     /**

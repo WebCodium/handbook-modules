@@ -18,8 +18,8 @@ angular
  * @namespace
  * @ignore
  */
-AddressController.$inject = ['editableOptions', 'editableThemes', 'constantAddress', 'AddressService', '$timeout', '$window'];
-function AddressController(editableOptions, editableThemes, configs, AddressService, $timeout, $window) {
+AddressController.$inject = ['editableOptions', 'editableThemes', 'constantAddress', 'AddressService', '$timeout', '$window', '$log'];
+function AddressController(editableOptions, editableThemes, configs, AddressService, $timeout, $window, $log) {
     /**
      * @namespace
      * @ignore
@@ -47,7 +47,11 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
     angular.extend(editableThemes[configs.optionsXeditable.theme], configs.optionsXeditable.options);
 
     //get addresses
-    AddressService.getAddresses(addressesReady);
+    AddressService
+        .getAddresses()
+        .then(addressesReady, function (err) {
+            $log.error(err);
+        });
 
     //set options for map
     if (vm.google) {
@@ -185,10 +189,14 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
             address.isNew = false;
         }
         // send on server
-        AddressService.setAddress(address, function (data) {
-            data.latLng = angular.fromJson(data.latLng);
-            vm.addresses[index] = data;
-        });
+        AddressService
+            .setAddress(address)
+            .then(function (data) {
+                data.latLng = angular.fromJson(data.latLng);
+                vm.addresses[index] = data;
+            }, function (err) {
+                alert(err);
+            });
     }
 
     /**
@@ -197,10 +205,14 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
     // delete address by index
     function removeAddress(index) {
         var address = vm.addresses[index];
-        AddressService.deleteAddress(address._id, function () {
-            vm.addresses.splice(index, 1);
-            console.log('removed');
-        });
+        AddressService
+            .deleteAddress(address._id)
+            .then(function () {
+                vm.addresses.splice(index, 1);
+                $log.info('removed');
+            }, function (err) {
+                $log.error(err);
+            });
     }
 
     /**

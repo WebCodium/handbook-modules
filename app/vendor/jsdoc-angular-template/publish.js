@@ -3,9 +3,9 @@
 
 var fs = require('jsdoc/fs');
 var path = require('jsdoc/path');
-var marked = require('../../node_modules/angular-jsdoc/node_modules/marked');
+var marked = require('../../../node_modules/angular-jsdoc/node_modules/marked');
 var helper = require('jsdoc/util/templateHelper');
-var angularTemplate = require('../../node_modules/angular-jsdoc/node_modules/angular-template');
+var angularTemplate = require('../../../node_modules/angular-jsdoc/node_modules/angular-template');
 
 var templatePath;
 var outdir = env.opts.destination;

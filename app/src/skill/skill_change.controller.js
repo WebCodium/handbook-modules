@@ -13,8 +13,8 @@ angular
  * @namespace
  * @ignore
  */
-SkillChangeController.$inject = ['$scope', 'SkillService', 'constantSkill'];
-function SkillChangeController($scope, SkillService, configs) {
+SkillChangeController.$inject = ['$scope', 'SkillService', 'constantSkill', '$q', '$log'];
+function SkillChangeController($scope, SkillService, configs, $q, $log) {
     /**
      * @namespace
      * @ignore
@@ -28,8 +28,15 @@ function SkillChangeController($scope, SkillService, configs) {
     vm.removeUserSkill = removeUserSkill;
     vm.checkDisabled = checkDisabled;
 
-    SkillService.getSkills(skillsReady);
-    SkillService.getUserSkills(skillsUserReady);
+    SkillService
+        .getSkills()
+        .then(skillsReady, function () {
+            $log.error(err);
+        })
+        .then(SkillService.getUserSkills)
+        .then(skillsUserReady, function () {
+            $log.error(err);
+        });
 
     vm.slider = {
         options: {
@@ -76,26 +83,39 @@ function SkillChangeController($scope, SkillService, configs) {
             title: vm.skillSelected,
             level: 0
         };
-        saveUserSkill(skill, function (data) {
-            vm.userSkills[index] = data;
-            vm.skillSelected = null;
-        });
+        saveUserSkill(skill)
+            .then(function (data) {
+                vm.userSkills[index] = data;
+                vm.skillSelected = null;
+            });
     }
 
     function removeUserSkill(index) {
         var skill = vm.userSkills[index];
-        SkillService.deleteUserSkill(skill._id, function () {
-            vm.userSkills.splice(index, 1);
-            console.log('removed');
-        });
+        SkillService
+            .deleteUserSkill(skill._id)
+            .then(function () {
+                vm.userSkills.splice(index, 1);
+                $log.info('removed');
+            }, function () {
+                $log.error(err);
+            });
     }
 
     function checkDisabled(item) {
         return vm.userSkillsTitle.indexOf(item.title) !== -1;
     }
 
-    function saveUserSkill(skill, cb) {
-        SkillService.setUserSkill(skill, cb);
+    function saveUserSkill(skill) {
+        var deferred = $q.defer();
+        SkillService
+            .setUserSkill(skill)
+            .then(function () {
+                deferred.resolve.apply(deferred, arguments);
+            }, function () {
+                $log.error(err);
+            });
+        return deferred.promise;
     }
 
     function stopSlider(event, ui) {
@@ -106,9 +126,10 @@ function SkillChangeController($scope, SkillService, configs) {
             scope.leftSkill = '';
             scope.rightSkill = '';
         });
-        saveUserSkill(vm.userSkills[index], function (data) {
-            vm.userSkills[index] = data;
-        });
+        saveUserSkill(vm.userSkills[index])
+            .then(function (data) {
+                vm.userSkills[index] = data;
+            });
     }
 
     function slide(event, ui) {

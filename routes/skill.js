@@ -31,7 +31,6 @@ exports.postUserSkill = function (req, res) {
     });
 };
 exports.deleteUserSkill = function (req, res) {
-    console.log(req.params.skill_id);
     UserSkill.remove({
         _id: req.params.skill_id
     }, function (err) {

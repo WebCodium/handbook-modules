@@ -13,8 +13,8 @@ angular
  * @namespace
  * @ignore
  */
-SkillCreateRemoveController.$inject = ['SkillService'];
-function SkillCreateRemoveController(SkillService) {
+SkillCreateRemoveController.$inject = ['SkillService', '$log'];
+function SkillCreateRemoveController(SkillService, $log) {
     /**
      * @namespace
      * @ignore
@@ -22,7 +22,11 @@ function SkillCreateRemoveController(SkillService) {
     var vm = this;
 
     //get skills
-    SkillService.getSkills(skillReady);
+    SkillService
+        .getSkills()
+        .then(skillReady, function () {
+            $log.error(err);
+        });
 
     vm.createSkill = createSkill;
     vm.removeSkill = removeSkill;
@@ -50,18 +54,26 @@ function SkillCreateRemoveController(SkillService) {
         var index = vm.skillsLength++;
         var skill = {title: vm.nameSkill};
         // send on server
-        SkillService.setSkill(skill, function (data) {
-            vm.skills[index] = data;
-            vm.nameSkill = '';
-            vm.isDisabled = false;
-        });
+        SkillService
+            .setSkill(skill)
+            .then(function (data) {
+                vm.skills[index] = data;
+                vm.nameSkill = '';
+                vm.isDisabled = false;
+            }, function () {
+                $log.error(err);
+            });
     }
 
     function removeSkill(index) {
         var skill = vm.skills[index];
-        SkillService.deleteSkill(skill._id, function () {
-            vm.skills.splice(index, 1);
-            console.log('removed');
-        });
+        SkillService
+            .deleteSkill(skill._id)
+            .then(function () {
+                vm.skills.splice(index, 1);
+                console.log('removed');
+            }, function () {
+                $log.error(err);
+            });
     }
 }

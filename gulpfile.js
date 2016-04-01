@@ -15,27 +15,29 @@ var del = require('del');
 var fs = require('fs');
 var path = require('path');
 
+var base = 'app/';
+
 gulp.task('default', ['lint-js', 'scripts', 'templates']);
 
 gulp.task('lint-js', function () {
-    gulp.src('src/**/*.js')
+    gulp.src(base + 'src/**/*.js')
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
 
 gulp.task('scripts', function (done) {
     gulp.src([
-        'src/app.module.js',
-        'src/**/*.module.js',
-        'src/**/*.js'
+        base + 'src/app.module.js',
+        base + 'src/**/*.module.js',
+        base + 'src/**/*.js'
     ])
         .pipe(wrap('(function() {\n\'use strict\';\n\n<%= contents %>\n\n})();'))
         .pipe(concat('app.js'))
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest(base + 'dist'))
         .on('end', done);
 });
 
-var modulesDir = './src/';
+var modulesDir = base + 'src/';
 var getModules = function (dir) {
     var deferred = Q.defer();
     fs.readdir(dir, function (err, dirs) {
@@ -61,7 +63,7 @@ function templatesGenerate(modules) {
                 module: 'app.' + folder + '.template',
                 standalone: true
             }))
-            .pipe(gulp.dest('dist/templates'))
+            .pipe(gulp.dest(base + 'dist/templates'))
             .on('end', function () {
                 i++;
                 if (i === modules.length) {
@@ -73,14 +75,14 @@ function templatesGenerate(modules) {
 };
 function templatesConcat() {
     var deferred = Q.defer();
-    gulp.src('dist/templates/*')
+    gulp.src(base + 'dist/templates/*')
         .pipe(concat('templates.js'))
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest(base + 'dist'))
         .on('end', deferred.resolve);
     return deferred.promise;
 };
 function templatesClean() {
-    del.sync(['dist/templates'], {force: true});
+    del.sync([base + 'dist/templates'], {force: true});
 }
 
 gulp.task('templates', function () {
@@ -91,21 +93,22 @@ gulp.task('templates', function () {
 });
 
 gulp.task('clean', function () {
-    del.sync(['dist/*'], {force: true});
+    del.sync([base + 'dist/*'], {force: true});
 });
 
 gulp.task('docs:base', shell.task([
     'node_modules/jsdoc/jsdoc.js ' +
     '-c node_modules/angular-jsdoc/common/conf.json ' +   // config file
-    '-t vendor/jsdoc-angular-template ' +   // template file
-    '-d docs ' +                           // output directory
+    '-t ' + base + 'vendor/jsdoc-angular-template ' +   // template file
+    '-d ' + base + 'docs ' +                           // output directory
     './README.md ' +                            // to include README.md as index contents
-    '-r src/**/*.js '                 // source code directory
-    //'-u tutorials'                              // tutorials directory
-]));
+    '-r ' + base + 'src/**/*.js'                 // source code directory
+//'-u tutorials'                              // tutorials directory
+]))
+;
 gulp.task('vendor:docs', function () {
-    return gulp.src(require('./vendor-docs.json'))
-        .pipe(gulp.dest('docs/vendor'));
+    return gulp.src(require(base + 'vendor-docs.json'))
+        .pipe(gulp.dest(base + 'docs/vendor'));
 });
 gulp.task('docs', ['docs:base', 'vendor:docs'], function () {
     return gulp.src(modulesDir + '**/*.html', {base: modulesDir})
@@ -153,7 +156,7 @@ gulp.task('docs', ['docs:base', 'vendor:docs'], function () {
         .pipe(rename(function (path) {
             path.dirname = "";
         }))
-        .pipe(gulp.dest('docs/templates'));
+        .pipe(gulp.dest(base + 'docs/templates'));
 });
 
 gulp.task('serve:docs', ['docs'], function () {
@@ -161,34 +164,34 @@ gulp.task('serve:docs', ['docs'], function () {
         notify: false,
         port: 1337,
         server: {
-            baseDir: 'docs',
+            baseDir: base + 'docs',
             index: 'index.html',
             routes: {
-                '../vendor': 'bower_components',
-                '/dist': 'dist'
+                '../vendor': base + 'bower_components',
+                '/dist': base + 'dist'
             }
         }
     });
     gulp.watch([
         'README.md',
         'gulpfile.js',
-        'src/**/*'
+        base + 'src/**/*'
     ], ['docs']);
 });
 
 gulp.task('serve', function () {
     gulp.watch([
-        'dist/**/*',
+        base + 'dist/**/*',
         'index.html'
     ]).on('change', reload);
 
     gulp.watch([
         'gulpfile.js',
-        'src/**/*.js'
+        base + 'src/**/*.js'
     ], ['scripts']);
 
     gulp.watch([
-        'src/**/*.html'
+        base + 'src/**/*.html'
     ], ['templates']);
 });
 

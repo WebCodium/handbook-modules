@@ -1,6 +1,6 @@
 /**
- * @memberof address
- * @name Configs
+ * @memberof skill
+ * @name constantSkill
  * @ngdoc constant
  * @description
  * Configs for skill module

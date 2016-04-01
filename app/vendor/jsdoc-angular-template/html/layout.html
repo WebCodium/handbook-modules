@@ -36,18 +36,15 @@
         <li id="{{moduleName}}" ng-hide="module{{moduleVar}}" ng-init="npi.module{{moduleVar}} = false">
             <ul class="group" ht-repeat="(groupName, group) in module">
                 <h3>
-                    <a href=""
-                       ng-click="{{moduleVar}}{{groupName}} = !{{moduleVar}}{{groupName}}">
+                    <a ng-click="{{moduleVar}}{{groupName}} = !{{moduleVar}}{{groupName}}">
                         {{ groupName }}
                     </a>
-                    <i ng-show="{{moduleVar}}{{groupName}}">+</i>
                 </h3>
-                <ul ng-hide="{{moduleVar}}{{groupName}}">
+                <ul>
                     <li ht-repeat="(className, klass) in group">
                         <span ng-init="npi.module{{moduleVar}} = '{{klass.jsDocUrl}}' == currentUrl ? true : (npi.module{{moduleVar}} ? true : false)"></span>
                         <span ng-init="module{{moduleVar}} = npi.module{{moduleVar}} || condParent.{{ moduleName }} ? false : true"></span>
-                        <a href="{{ klass.jsDocUrl }}" ng-class="{'active': '{{klass.jsDocUrl}}' == currentUrl}"
-                           ng-init="{{moduleVar}}{{groupName}} = '{{klass.jsDocUrl}}' == currentUrl ? false : true">{{ className }}</a>
+                        <a href="{{ klass.jsDocUrl }}" ng-class="{'active': '{{klass.jsDocUrl}}' == currentUrl}">{{ className }}</a>
                     </li>
                 </ul>
             </ul>
