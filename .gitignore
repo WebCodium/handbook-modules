@@ -1,9 +1,9 @@
-bower_components/
+app/bower_components/
 node_modules/
 .DS_Store
 .idea
 .sass-cache
 .publish
 npm-debug.log
-docs
-dist
+app/docs
+app/dist
