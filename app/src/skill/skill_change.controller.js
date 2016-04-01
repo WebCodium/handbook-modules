@@ -1,6 +1,6 @@
 /**
  * @memberof skill
- * @name skillChangeController
+ * @name SkillChangeController
  * @ngdoc controller
  * @description
  * Controller for changing skill skill module

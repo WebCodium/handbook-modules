@@ -107,7 +107,7 @@ gulp.task('docs:base', shell.task([
 ]))
 ;
 gulp.task('vendor:docs', function () {
-    return gulp.src(require(base + 'vendor-docs.json'))
+    return gulp.src(require('./' + base + 'vendor-docs.json'))
         .pipe(gulp.dest(base + 'docs/vendor'));
 });
 gulp.task('docs', ['docs:base', 'vendor:docs'], function () {
