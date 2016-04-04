@@ -4,10 +4,10 @@ h4 Skills change&nbsp;
     .row
         .col-lg-6
             form.input-group
-                select.form-control(ng-model="vm.skillSelected", chosen)
+                select.form-control(ng-model="vm.skillSelected", chosen, chosen-update)
                     option(ng-repeat="item in vm.skills", label="{{item.title}}", value="{{item.title}}", ng-disabled="vm.checkDisabled(item)") {{item.title}}
                 .input-group-btn
-                    button.btn.btn-sm.btn-primary(type="submit", ng-click="vm.addUserSkill()") Add new skill
+                    button.btn.btn-sm.btn-primary(type="submit", ng-click="vm.addUserSkill(vm.skillSelected)") Add new skill
             .alert.alert-danger(ng-if="vm.isNotSelected") Select skill!
             .alert.alert-danger(ng-if="vm.isDuplicate") This skill already added
     div(ng-if="vm.userSkills.length")
@@ -29,5 +29,5 @@ h4 Skills change&nbsp;
                     | &times;
                 | &nbsp;&nbsp;{{item.title}}
             .col-lg-9
-                skill-change(level="item.level", slider-options="vm.slider.options", index="$index")
+                skill-change(level="item.level", slider-options="vm.slider.options")
     .alert.alert-info(ng-if="!vm.userSkills.length") Here are not user's skills

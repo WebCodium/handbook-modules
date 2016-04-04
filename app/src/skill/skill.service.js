@@ -28,9 +28,10 @@ function SkillService($http, configs, $q) {
     ////////////////
 
     /**
-     * @param {Object} data - post options
+     * Save skill
+     * @param {Object} data - Skill object
+     * @returns {promise} Angular promise
      */
-    // save address
     function setSkill(data) {
         var deferred = $q.defer();
         var addressURL = configs.urls.set;
@@ -47,8 +48,9 @@ function SkillService($http, configs, $q) {
         return deferred.promise;
     }
 
-    // cancel all changes
     /**
+     * Get all skills
+     * @returns {promise} Angular promise
      */
     function getSkills() {
         var deferred = $q.defer();
@@ -67,7 +69,9 @@ function SkillService($http, configs, $q) {
     }
 
     /**
+     * Delete skill by id
      * @param {integer} id - id of address
+     * @returns {promise} Angular promise
      */
     function deleteSkill(id) {
         var deferred = $q.defer();
@@ -84,6 +88,11 @@ function SkillService($http, configs, $q) {
 
         return deferred.promise;
     }
+
+    /**
+     * Get all user skills
+     * @returns {promise} Angular promise
+     */
 
     function getUserSkills() {
         var deferred = $q.defer();
@@ -102,7 +111,9 @@ function SkillService($http, configs, $q) {
     }
 
     /**
+     * Save user skill
      * @param {Object} data - object of user skill
+     * @return {promise} Angular promise
      */
     function setUserSkill(data) {
         var deferred = $q.defer();
@@ -121,7 +132,9 @@ function SkillService($http, configs, $q) {
     }
 
     /**
+     * Delete user skill by id
      * @param {integer} id - id of address
+     * @returns {promise} Angular promise
      */
     function deleteUserSkill(id) {
         var deferred = $q.defer();

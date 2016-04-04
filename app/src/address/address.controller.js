@@ -74,8 +74,8 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
     vm.formShowWhenNew = formShowWhenNew;
     vm.viewLocation = viewLocation;
 
-    //add Marker
     /**
+     * Add Marker
      * @namespace
      * @ignore
      */
@@ -89,8 +89,8 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
         markers.push(marker);
     }
 
-    //remove all marker
     /**
+     * Remove all marker
      * @namespace
      * @ignore
      */
@@ -100,8 +100,8 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
         }
     }
 
-    //set center
     /**
+     * Set center
      * @namespace
      * @ignore
      */
@@ -110,8 +110,8 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
     }
 
 
-    //callback when addresses are loaded
     /**
+     * callback when addresses are loaded
      * @namespace
      * @ignore
      */
@@ -123,8 +123,8 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
         }, vm.addresses);
     }
 
-    //add new empty address
     /**
+     * add new empty address
      * For creating new address
      * ```
      *  {
@@ -143,9 +143,9 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
     }
 
     /**
+     * Cancel all changes
      * @param {integer} [index] - index of address (`$index` in ng-repeat)
      */
-    // cancel all changes
     function cancel(index) {
         var address = vm.addresses[index];
         // remove new
@@ -155,9 +155,9 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
     }
 
     /**
+     * save edits
      * @param {integer} [index] - index of address (`$index` in ng-repeat)
      */
-    // save edits
     function saveAddress(index) {
         var address = vm.addresses[index];
         var latLng = {};
@@ -200,9 +200,9 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
     }
 
     /**
+     * delete address by index
      * @param {integer} [index] - index of address (`$index` in ng-repeat)
      */
-    // delete address by index
     function removeAddress(index) {
         var address = vm.addresses[index];
         AddressService
@@ -216,10 +216,10 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
     }
 
     /**
+     * show input on start create address
      * @param {Object} form xeditable form
      * @param {integer} [index] - index of address (`$index` in ng-repeat)
      */
-    // show input on start create address
     function formShowWhenNew(form, index) {
         if (vm.addresses[index].isNew) {
             form.$show();
@@ -227,10 +227,10 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
     }
 
     /**
+     * show address on map
      * @param lat {float} Latitude for google map
      * @param lng {float} Longitude for google map
      */
-    //show address on map
     function viewLocation(posType) {
         if (posType.lat !== undefined && posType.lng !== undefined) {
             setMapOnAll(null);

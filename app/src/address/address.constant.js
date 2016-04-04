@@ -9,7 +9,7 @@
  * [about types](https://developers.google.com/maps/documentation/geocoding/intro#Types)
  * ,
  * [about long_name, short_name](https://developers.google.com/maps/documentation/javascript/reference#GeocoderAddressComponent)
- * @property {Object} urls Object for get, set and delete addresses
+ * @property {Object} urls Object for get, save and delete addresses
  * @property {String} urls.get Url for getting addresses
  * @property {String} urls.set Url for saving address
  * @property {String} urls.delete Url for deleting address

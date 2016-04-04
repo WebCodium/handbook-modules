@@ -3,7 +3,7 @@
  * @name SkillCreateRemoveController
  * @ngdoc controller
  * @description
- * Controller for changing skill skill module
+ * Controller for manage skill
  */
 angular
     .module('app.skill')
@@ -13,24 +13,27 @@ angular
  * @namespace
  * @ignore
  */
-SkillCreateRemoveController.$inject = ['SkillService', '$log'];
-function SkillCreateRemoveController(SkillService, $log) {
+SkillCreateRemoveController.$inject = ['SkillService', '$log', '$scope', '$q'];
+function SkillCreateRemoveController(SkillService, $log, $scope, $q) {
     /**
      * @namespace
      * @ignore
      */
     var vm = this;
 
-    //get skills
     SkillService
         .getSkills()
-        .then(skillReady, function () {
+        .then(skillReady, function (err) {
             $log.error(err);
         });
 
     vm.createSkill = createSkill;
     vm.removeSkill = removeSkill;
 
+    /**
+     * get skills
+     * @param {Array} items - Array of skill
+     */
     function skillReady(items) {
         vm.skills = [];
         angular.forEach(items, function (item) {
@@ -39,20 +42,25 @@ function SkillCreateRemoveController(SkillService, $log) {
         vm.skillsLength = vm.skills.length;
     }
 
-    function createSkill() {
-        vm.isDuplicate = false;
-        if (!vm.nameSkill)
+    /**
+     * Create skill
+     * @param {String} nameSkill - Skill name
+     * @returns {promise} Angular promise
+     */
+    function createSkill(nameSkill) {
+        var deferred = $q.defer();
+        vm.submitted = true;
+        if (!nameSkill)
             return;
         for (var i in vm.skills) {
             skill = vm.skills[i];
-            if (skill.title === vm.nameSkill) {
+            if (skill.title === nameSkill) {
                 vm.isDuplicate = true;
                 return false;
             }
         }
-        vm.isDisabled = true;
         var index = vm.skillsLength++;
-        var skill = {title: vm.nameSkill};
+        var skill = {title: nameSkill};
         // send on server
         SkillService
             .setSkill(skill)
@@ -60,20 +68,37 @@ function SkillCreateRemoveController(SkillService, $log) {
                 vm.skills[index] = data;
                 vm.nameSkill = '';
                 vm.isDisabled = false;
-            }, function () {
+                vm.submitted = false;
+                deferred.resolve(data);
+            }, function (err) {
                 $log.error(err);
+                deferred.reject(err);
             });
+        return deferred.promise;
     }
 
+    /**
+     *
+     * @param {Integer} index - Id of skill (at front)
+     * @returns {promise} Angular promise
+     */
     function removeSkill(index) {
+        var deferred = $q.defer();
         var skill = vm.skills[index];
         SkillService
             .deleteSkill(skill._id)
             .then(function () {
                 vm.skills.splice(index, 1);
-                console.log('removed');
-            }, function () {
+                deferred.resolve(index);
+            }, function (err) {
                 $log.error(err);
+                deferred.reject(err);
             });
+        return deferred.promise;
     }
+
+    $scope.$watch('vm.nameSkill', function () {
+        vm.isDuplicate = false;
+        vm.submitted = false;
+    });
 }

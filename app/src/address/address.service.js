@@ -25,9 +25,9 @@ function AddressService($http, configs, $q) {
     ////////////////
 
     /**
+     * Save address
      * @param {Object} data - post options
      */
-    // save address
     function setAddress(data) {
         var deferred = $q.defer();
         var addressURL = configs.urls.set;
@@ -44,8 +44,8 @@ function AddressService($http, configs, $q) {
         return deferred.promise;
     }
 
-    // cancel all changes
     /**
+     * Get all addresses
      */
     function getAddresses() {
         var deferred = $q.defer();

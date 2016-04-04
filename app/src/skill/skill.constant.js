@@ -4,6 +4,15 @@
  * @ngdoc constant
  * @description
  * Configs for skill module
+ * @property {Object} urls Object for get, save and delete skills
+ * @property {String} urls.get Url for getting skills
+ * @property {String} urls.set Url for saving skill
+ * @property {String} urls.delete Url for deleting skill
+ * @property {String} deleteMethod Delete method for delete skill, by default `delete`
+ * @property {String} levels Count of parts for skill
+ * @property {String} height Height for range of skill
+ * @property {Array} colorLevels Array of colors for each level
+ * @property {Array} textLevels Array of texts for each level
  */
 angular
     .module('app.skill')

@@ -9,6 +9,7 @@
 angular
     .module('handbook', [
         'ui.bootstrap',
+        'app.core',
         'app.panels',
         'app.skill',
         'app.address'

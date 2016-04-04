@@ -26,7 +26,6 @@ angular
 panel.$inject = [];
 function panel() {
     var directive = {
-        link: link,
         restrict: 'E',
         transclude: {
             'header': '?panelHeader',
@@ -36,7 +35,4 @@ function panel() {
         templateUrl: 'panel_default.template.html'
     };
     return directive;
-    function link(scope, element, attrs) {
-
-    }
 }
