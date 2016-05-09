@@ -34,9 +34,9 @@ function SkillCreateRemoveController(SkillService, $log, $scope, $q) {
      * get skills
      * @param {Array} items - Array of skill
      */
-    function skillReady(items) {
+    function skillReady(response) {
         vm.skills = [];
-        angular.forEach(items, function (item) {
+        angular.forEach(response.data, function (item) {
             this.push(item);
         }, vm.skills);
         vm.skillsLength = vm.skills.length;
@@ -64,12 +64,12 @@ function SkillCreateRemoveController(SkillService, $log, $scope, $q) {
         // send on server
         SkillService
             .setSkill(skill)
-            .then(function (data) {
-                vm.skills[index] = data;
+            .then(function (response) {
+                vm.skills[index] = response.data;
                 vm.nameSkill = '';
                 vm.isDisabled = false;
                 vm.submitted = false;
-                deferred.resolve(data);
+                deferred.resolve(response);
             }, function (err) {
                 $log.error(err);
                 deferred.reject(err);

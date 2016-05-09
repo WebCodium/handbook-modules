@@ -115,7 +115,8 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
      * @namespace
      * @ignore
      */
-    function addressesReady(items) {
+    function addressesReady(reponse) {
+        var items = reponse.data;
         vm.addresses = [];
         angular.forEach(items, function (item) {
             item.latLng = angular.fromJson(item.latLng);
@@ -191,7 +192,8 @@ function AddressController(editableOptions, editableThemes, configs, AddressServ
         // send on server
         AddressService
             .setAddress(address)
-            .then(function (data) {
+            .then(function (response) {
+                data = response.data;
                 data.latLng = angular.fromJson(data.latLng);
                 vm.addresses[index] = data;
             }, function (err) {

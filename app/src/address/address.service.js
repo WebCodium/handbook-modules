@@ -29,57 +29,21 @@ function AddressService($http, configs, $q) {
      * @param {Object} data - post options
      */
     function setAddress(data) {
-        var deferred = $q.defer();
-        var addressURL = configs.urls.set;
-
-        $http
-            .post(addressURL, data)
-            .success(function () {
-                deferred.resolve.apply(deferred, arguments);
-            })
-            .error(function (err) {
-                deferred.reject(err);
-            });
-
-        return deferred.promise;
+        return $http.post(configs.urls.set, data);
     }
 
     /**
      * Get all addresses
      */
     function getAddresses() {
-        var deferred = $q.defer();
-        var addressURL = configs.urls.get;
-
-        $http
-            .get(addressURL)
-            .success(function () {
-                deferred.resolve.apply(deferred, arguments);
-            })
-            .error(function (err) {
-                deferred.reject(err);
-            });
-
-        return deferred.promise;
+        return $http.get(configs.urls.get);
     }
 
     /**
      * @param {integer} id - id of address
      */
     function deleteAddress(id) {
-        var deferred = $q.defer();
-        var addressDeleteURL = configs.urls.delete + id;
-
-        $http
-            [configs.deleteMethod](addressDeleteURL)
-            .success(function () {
-                deferred.resolve.apply(deferred, arguments);
-            })
-            .error(function (err) {
-                deferred.reject(err);
-            });
-
-        return deferred.promise;
+        return $http[configs.deleteMethod](configs.urls.delete + id);
     }
 
     /**

@@ -33,19 +33,7 @@ function SkillService($http, configs, $q) {
      * @returns {promise} Angular promise
      */
     function setSkill(data) {
-        var deferred = $q.defer();
-        var addressURL = configs.urls.set;
-
-        $http
-            .post(addressURL, data)
-            .success(function(){
-                deferred.resolve.apply(deferred, arguments);
-            })
-            .error(function(){
-                deferred.reject(err);
-            });
-
-        return deferred.promise;
+        return $http.post(configs.urls.set, data);
     }
 
     /**
@@ -53,19 +41,7 @@ function SkillService($http, configs, $q) {
      * @returns {promise} Angular promise
      */
     function getSkills() {
-        var deferred = $q.defer();
-        var addressURL = configs.urls.get;
-
-        $http
-            .get(addressURL)
-            .success(function(){
-                deferred.resolve.apply(deferred, arguments);
-            })
-            .error(function(){
-                deferred.reject(err);
-            });
-
-        return deferred.promise;
+        return $http.get(configs.urls.get);
     }
 
     /**
@@ -74,19 +50,7 @@ function SkillService($http, configs, $q) {
      * @returns {promise} Angular promise
      */
     function deleteSkill(id) {
-        var deferred = $q.defer();
-        var skillDeleteURL = configs.urls.delete + id;
-
-        $http
-            [configs.deleteMethod](skillDeleteURL)
-            .success(function(){
-                deferred.resolve.apply(deferred, arguments);
-            })
-            .error(function(){
-                deferred.reject(err);
-            });
-
-        return deferred.promise;
+        return $http[configs.deleteMethod](configs.urls.delete + id);
     }
 
     /**
@@ -95,19 +59,7 @@ function SkillService($http, configs, $q) {
      */
 
     function getUserSkills() {
-        var deferred = $q.defer();
-        var addressURL = configs.urls.getUser;
-
-        $http
-            .get(addressURL)
-            .success(function(){
-                deferred.resolve.apply(deferred, arguments);
-            })
-            .error(function(){
-                deferred.reject(err);
-            });
-
-        return deferred.promise;
+        return $http.get(configs.urls.getUser);
     }
 
     /**
@@ -116,19 +68,7 @@ function SkillService($http, configs, $q) {
      * @return {promise} Angular promise
      */
     function setUserSkill(data) {
-        var deferred = $q.defer();
-        var addressURL = configs.urls.setUser;
-
-        $http
-            .post(addressURL, data)
-            .success(function(){
-                deferred.resolve.apply(deferred, arguments);
-            })
-            .error(function(){
-                deferred.reject(err);
-            });
-
-        return deferred.promise;
+        return $http.post(configs.urls.setUser, data);
     }
 
     /**
@@ -137,18 +77,6 @@ function SkillService($http, configs, $q) {
      * @returns {promise} Angular promise
      */
     function deleteUserSkill(id) {
-        var deferred = $q.defer();
-        var skillDeleteURL = configs.urls.deleteUser + id;
-
-        $http
-            [configs.deleteMethod](skillDeleteURL)
-            .success(function(){
-                deferred.resolve.apply(deferred, arguments);
-            })
-            .error(function(){
-                deferred.reject(err);
-            });
-
-        return deferred.promise;
+        return $http[configs.deleteMethod](configs.urls.deleteUser + id);
     }
 }

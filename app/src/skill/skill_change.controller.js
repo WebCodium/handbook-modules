@@ -55,9 +55,9 @@ function SkillChangeController($scope, SkillService, configs, $q, $log, $filter)
      * Callback on getting all skills
      * @param items {Array} Array of skill
      */
-    function skillsReady(items) {
+    function skillsReady(response) {
         vm.skills = [];
-        angular.forEach(items, function (item) {
+        angular.forEach(response.data, function (item) {
             this.push(item);
         }, vm.skills);
         vm.skillSelected = null;
@@ -67,9 +67,9 @@ function SkillChangeController($scope, SkillService, configs, $q, $log, $filter)
      * Callback on getting user's skills
      * @param items {Array} Array of user skills
      */
-    function skillsUserReady(items) {
+    function skillsUserReady(response) {
         vm.userSkills = [];
-        angular.forEach(items, function (item) {
+        angular.forEach(response.data, function (item) {
             this.push(item);
         }, vm.userSkills);
     }
@@ -95,8 +95,8 @@ function SkillChangeController($scope, SkillService, configs, $q, $log, $filter)
             level: 0
         };
         saveUserSkill(skill)
-            .then(function (data) {
-                vm.userSkills[index] = data;
+            .then(function (response) {
+                vm.userSkills[index] = response.data;
                 vm.skillSelected = null;
             });
     }
@@ -134,15 +134,7 @@ function SkillChangeController($scope, SkillService, configs, $q, $log, $filter)
      * @returns {promise} Angular promise
      */
     function saveUserSkill(skill) {
-        var deferred = $q.defer();
-        SkillService
-            .setUserSkill(skill)
-            .then(function () {
-                deferred.resolve.apply(deferred, arguments);
-            }, function () {
-                $log.error(err);
-            });
-        return deferred.promise;
+        return SkillService.setUserSkill(skill);
     }
 
     /**
@@ -160,8 +152,8 @@ function SkillChangeController($scope, SkillService, configs, $q, $log, $filter)
             scope.rightSkill = '';
         });
         saveUserSkill(filteredSkills[index])
-            .then(function (data) {
-                filteredSkills[index] = data;
+            .then(function (response) {
+                filteredSkills[index] = response.data;
             });
     }
 
